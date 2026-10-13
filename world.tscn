@@ -1,0 +1,48 @@
+[gd_scene format=4 uid="uid://53m3wgnapd5q"]
+
+[ext_resource type="Texture2D" uid="uid://urqbml2a0d0h" path="res://tile/stone1.png" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://cmfaaylcg7mmf" path="res://Player.tscn" id="2_fj7yv"]
+[ext_resource type="Texture2D" uid="uid://b6850k3462jj3" path="res://tile/plot1.1.png" id="2_tlwt5"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fj7yv"]
+texture = ExtResource("1_f3sb7")
+texture_region_size = Vector2i(255, 131)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(0, -64, 128, 0, 98.588326, 14.705837, 4, 64, -128, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aqk2v"]
+texture = ExtResource("2_tlwt5")
+texture_region_size = Vector2i(256, 128)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_muqmd"]
+tile_shape = 1
+tile_size = Vector2i(256, 128)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_fj7yv")
+sources/1 = SubResource("TileSetAtlasSource_aqk2v")
+
+[node name="World" type="Node2D" unique_id=2018735311]
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=832311833]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAD//wEAAAAAAAAAAAAAAP//AAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAAAAP7/AAAAAAAAAAD//wMAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wEAAAAAAAAAAAABAP//AAAAAAAAAAAAAP3/AAAAAAAAAAABAP7/AAAAAAAAAAACAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_muqmd")
+collision_enabled = false
+
+[node name="Player" parent="." unique_id=1510979019 instance=ExtResource("2_fj7yv")]
+z_index = 1
+
+[node name="Camera2D" type="Camera2D" parent="Player" unique_id=2131233409]
+
+[node name="Plots" type="TileMapLayer" parent="." unique_id=1635394358]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAD//wEAAAAAAAAAAAAAAP//AAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAAAAP7/AAAAAAAAAAD//wMAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wEAAAAAAAAAAAABAP//AAAAAAAAAAAAAP3/AAAAAAAAAAABAP7/AAAAAAAAAAACAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_muqmd")
+collision_enabled = false
+
+[node name="Crops" type="TileMapLayer" parent="." unique_id=106145976]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAD//wEAAAAAAAAAAAAAAP//AAAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAAAAP7/AAAAAAAAAAD//wMAAAAAAAAAAAD//wIAAAAAAAAAAAD+/wEAAAAAAAAAAAABAP//AAAAAAAAAAAAAP3/AAAAAAAAAAABAP7/AAAAAAAAAAACAAAAAAAAAAAAAAABAAEAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_muqmd")
+collision_enabled = false
