@@ -21,6 +21,10 @@ window/size/viewport_width=390
 window/size/viewport_height=844
 window/stretch/mode="canvas_items"
 
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

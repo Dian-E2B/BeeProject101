@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://b5u11hwmdahvf" path="res://tile/stone_W.png" id="1_fj7yv"]
 [ext_resource type="PackedScene" uid="uid://cmfaaylcg7mmf" path="res://Player.tscn" id="2_fj7yv"]
 [ext_resource type="Texture2D" uid="uid://6pmkqcqs13k5" path="res://tile/grass1.1.png" id="3_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://b65kar3jscu2d" path="res://MoveUI.tscn" id="4_aqk2v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tlwt5"]
 texture = ExtResource("1_fj7yv")
@@ -27,6 +28,8 @@ sources/8 = SubResource("TileSetAtlasSource_aqk2v")
 
 [node name="World" type="Node2D" unique_id=2018735311]
 
+[node name="MoveUi" parent="." unique_id=1756824548 instance=ExtResource("4_aqk2v")]
+
 [node name="Ground" type="TileMapLayer" parent="." unique_id=832311833]
 y_sort_enabled = true
 position = Vector2(42, 110)
@@ -38,6 +41,7 @@ collision_enabled = false
 z_index = 1
 
 [node name="Camera2D" type="Camera2D" parent="Player" unique_id=2131233409]
+zoom = Vector2(0.5, 0.5)
 
 [node name="Plots" type="TileMapLayer" parent="." unique_id=1635394358]
 y_sort_enabled = true

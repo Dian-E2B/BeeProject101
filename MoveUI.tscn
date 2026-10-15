@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b65kar3jscu2d"]
+
+[ext_resource type="Script" uid="uid://dwchsscv2h42j" path="res://controls/joystick.gd" id="1_ln83p"]
+[ext_resource type="Script" uid="uid://08vhub66hpks" path="res://controls/move_ui.gd" id="1_nt8f0"]
+
+[node name="MoveUi" type="CanvasLayer" unique_id=1756824548]
+script = ExtResource("1_nt8f0")
+
+[node name="Joystick" type="Control" parent="." unique_id=1874728850]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -51.0
+offset_right = 43.0
+offset_bottom = -10.0
+grow_vertical = 0
+script = ExtResource("1_ln83p")
