@@ -10,10 +10,13 @@ motion_mode = 1
 script = ExtResource("1_xhfnw")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1344028557]
-position = Vector2(-7.6293945e-06, -106)
-scale = Vector2(0.16929688, 0.20937496)
+texture_filter = 1
+position = Vector2(0.9999962, -30.999998)
+scale = Vector2(0.07116211, 0.07367187)
 texture = ExtResource("2_kpjcp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=957325445]
 position = Vector2(0, -9)
 shape = SubResource("CapsuleShape2D_muqmd")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1228046260]
