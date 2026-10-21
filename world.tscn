@@ -1,10 +1,14 @@
 [gd_scene format=4 uid="uid://53m3wgnapd5q"]
 
+[ext_resource type="Script" uid="uid://d8ag2yjkco2h" path="res://world.gd" id="1_dwbse"]
 [ext_resource type="Texture2D" uid="uid://b5u11hwmdahvf" path="res://tile/stone_W.png" id="1_fj7yv"]
-[ext_resource type="PackedScene" uid="uid://cmfaaylcg7mmf" path="res://Player.tscn" id="2_fj7yv"]
+[ext_resource type="PackedScene" uid="uid://cmfaaylcg7mmf" path="res://player/Player.tscn" id="2_fj7yv"]
 [ext_resource type="Texture2D" uid="uid://6pmkqcqs13k5" path="res://tile/grass1.1.png" id="3_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://b1t1hu1llifi7" path="res://tile/Fence2.png" id="4_036b0"]
-[ext_resource type="PackedScene" uid="uid://b65kar3jscu2d" path="res://MoveUI.tscn" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://b65kar3jscu2d" path="res://Uis/MoveUI.tscn" id="4_aqk2v"]
+[ext_resource type="Texture2D" uid="uid://dvidew40e78hq" path="res://tile/plot1.png" id="7_pkg7o"]
+[ext_resource type="PackedScene" uid="uid://btsly4a5t82v5" path="res://store/Store.tscn" id="8_gbfbk"]
+[ext_resource type="PackedScene" uid="uid://my7ftjh8kmje" path="res://store/market/Market.tscn" id="9_ioo17"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pkg7o"]
 texture = ExtResource("1_fj7yv")
@@ -39,26 +43,28 @@ tile_size = Vector2i(256, 128)
 physics_layer_0/collision_layer = 1
 sources/5 = SubResource("TileSetAtlasSource_ioo17")
 
-[sub_resource type="TileSet" id="TileSet_2o6r5"]
-tile_shape = 1
-tile_size = Vector2i(256, 128)
-physics_layer_0/collision_layer = 1
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wse8f"]
+texture = ExtResource("7_pkg7o")
+texture_region_size = Vector2i(256, 256)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, 41)
 
-[sub_resource type="TileSet" id="TileSet_muqmd"]
+[sub_resource type="TileSet" id="TileSet_ic0uy"]
 tile_shape = 1
 tile_size = Vector2i(256, 128)
 physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_wse8f")
 
 [node name="World" type="Node2D" unique_id=2018735311]
+script = ExtResource("1_dwbse")
 
 [node name="MoveUi" parent="." unique_id=1756824548 instance=ExtResource("4_aqk2v")]
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=832311833]
-visible = false
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(42, 110)
-tile_map_data = PackedByteArray("AAD///z/CAAAAAAAAAD///3/CAAAAAAAAAD+//3/CAAAAAAAAAD///7/CAAAAAAAAAD///v/CAAAAAAAAAAAAPz/CAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD///z/CAAAAAAAAAD///3/CAAAAAAAAAD+//3/CAAAAAAAAAD///7/CAAAAAAAAAD///v/CAAAAAAAAAAAAPz/CAAAAAAAAAD+//7/CAAAAAAAAAD+////CAAAAAAAAAA=")
 tile_set = SubResource("TileSet_ioo17")
 collision_enabled = false
 
@@ -66,18 +72,30 @@ collision_enabled = false
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(42, 110)
-tile_map_data = PackedByteArray("AAD+//v/BQAAAAAAAAD///r/BQAAAAAAAAD+//z/BQAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD+//v/BQAAAAAAAAD///r/BQAAAAAAAAD+//z/BQAAAAAAAAD9//3/BQAAAAAAAAA=")
 tile_set = SubResource("TileSet_hiqwa")
+
+[node name="Plots" type="TileMapLayer" parent="." unique_id=1223732138]
+y_sort_enabled = true
+texture_filter = 1
+position = Vector2(42, 110)
+tile_map_data = PackedByteArray("AAD+//7/AAAAAAAAAAD+//3/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_ic0uy")
+
+[node name="Crops" type="Node2D" parent="." unique_id=865307741]
 
 [node name="Player" parent="." unique_id=1510979019 instance=ExtResource("2_fj7yv")]
 z_index = 1
+position = Vector2(240, -259)
 
-[node name="Plots" type="TileMapLayer" parent="." unique_id=1635394358]
-y_sort_enabled = true
-tile_set = SubResource("TileSet_2o6r5")
-collision_enabled = false
+[node name="PromptLabel" type="Label" parent="." unique_id=217243809]
+visible = false
+offset_right = 64.0
+offset_bottom = 23.0
+text = "Plant [E]"
 
-[node name="Crops" type="TileMapLayer" parent="." unique_id=106145976]
-y_sort_enabled = true
-tile_set = SubResource("TileSet_muqmd")
-collision_enabled = false
+[node name="Store" parent="." unique_id=135781501 instance=ExtResource("8_gbfbk")]
+position = Vector2(147.00002, -228.00002)
+scale = Vector2(7.4036717, 7.1392856)
+
+[node name="Market" parent="." unique_id=152536498 instance=ExtResource("9_ioo17")]

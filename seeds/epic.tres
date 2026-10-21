@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SeedData" format=3 uid="uid://c56jxfom0vkp1"]
+
+[ext_resource type="Script" uid="uid://dnbaohyxgy56c" path="res://seeds/seed_data.gd" id="1_drwxb"]
+[ext_resource type="Texture2D" uid="uid://40q4moelhxrx" path="res://crops/crop1.png" id="2_ierer"]
+[ext_resource type="Texture2D" uid="uid://c5locxa502jpk" path="res://crops/crop2.png" id="3_rvn52"]
+[ext_resource type="Texture2D" uid="uid://flsmn7hl5j8m" path="res://crops/crop3.png" id="4_dyel0"]
+[ext_resource type="Texture2D" uid="uid://dgd6aahhxo87g" path="res://crops/crop4.png" id="5_3sf6q"]
+
+[resource]
+script = ExtResource("1_drwxb")
+stage_textures = Array[Texture2D]([ExtResource("2_ierer"), ExtResource("3_rvn52"), ExtResource("4_dyel0"), ExtResource("5_3sf6q")])
+metadata/_custom_type_script = "uid://dnbaohyxgy56c"

@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://btsly4a5t82v5"]
+
+[ext_resource type="Script" uid="uid://bcqiu8hsf3fj" path="res://store/store.gd" id="1_xcoxu"]
+[ext_resource type="Texture2D" uid="uid://bqnkr67y2jhv3" path="res://store/tindera101.png" id="2_spomf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nh2nn"]
+
+[node name="Store" type="Area2D" unique_id=135781501]
+script = ExtResource("1_xcoxu")
+
+[node name="Prompt" type="Label" parent="." unique_id=149998914]
+visible = false
+offset_left = -5.0
+offset_top = -17.0
+offset_right = 58.0
+offset_bottom = 6.0
+scale = Vector2(0.1570116, 0.15206401)
+text = "Shop [E]"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1947980985]
+position = Vector2(-4.7683716e-07, -1.9999995)
+scale = Vector2(0.05335713, 0.050826523)
+texture = ExtResource("2_spomf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1455530458]
+visible = false
+shape = SubResource("CircleShape2D_nh2nn")

@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://my7ftjh8kmje"]
+
+[ext_resource type="Script" uid="uid://3lmyw1yxbnms" path="res://store/market/market.gd" id="1_6ixgx"]
+[ext_resource type="Script" uid="uid://dnbaohyxgy56c" path="res://seeds/seed_data.gd" id="2_u8f6n"]
+[ext_resource type="Resource" uid="uid://cacr7w7hqf4wu" path="res://seeds/common.tres" id="3_xmm5j"]
+[ext_resource type="Resource" uid="uid://xkrw438wwvfd" path="res://seeds/uncommon.tres" id="4_qpu6o"]
+[ext_resource type="Resource" uid="uid://c8562xiyisa3i" path="res://seeds/rare.tres" id="5_mfbxb"]
+[ext_resource type="Resource" uid="uid://c56jxfom0vkp1" path="res://seeds/epic.tres" id="6_64g4q"]
+[ext_resource type="Resource" uid="uid://dgtekx4eqy8d1" path="res://seeds/legendary.tres" id="7_hsdge"]
+[ext_resource type="Resource" uid="uid://cytaryhxm2emj" path="res://seeds/mythical.tres" id="8_aoau1"]
+
+[node name="Market" type="CanvasLayer" unique_id=152536498]
+script = ExtResource("1_6ixgx")
+seed_list = Array[ExtResource("2_u8f6n")]([ExtResource("3_xmm5j"), ExtResource("4_qpu6o"), ExtResource("5_mfbxb"), ExtResource("6_64g4q"), ExtResource("7_hsdge"), ExtResource("8_aoau1")])
+
+[node name="Panel" type="Panel" parent="." unique_id=31246829]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -196.0
+offset_top = -246.0
+offset_right = 193.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1075201292]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SeedBox" type="VBoxContainer" parent="Panel/VBoxContainer" unique_id=2025680339]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/VBoxContainer" unique_id=780609800]
+layout_mode = 2
+text = "Market
+"
+
+[node name="Info" type="Label" parent="Panel/VBoxContainer" unique_id=1379380282]
+layout_mode = 2
+
+[node name="SellButton" type="Button" parent="Panel/VBoxContainer" unique_id=1050012181]
+layout_mode = 2
+focus_mode = 0
+text = "Sell all crops"
+
+[node name="CloseButton" type="Button" parent="Panel/VBoxContainer" unique_id=2113190622]
+layout_mode = 2
+focus_mode = 0
+text = "Close"
