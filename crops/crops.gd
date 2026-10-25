@@ -1,14 +1,17 @@
 extends Node2D
 
+signal pollinated
+
 const NECTAR_SCENE := preload("res://crops/Nectar.tscn")
 
 var data: SeedData
 var stage := 0
 var timer := 0.0
 
-var grown_timer := 0.0
-var has_thrown_nectar := false
-@export var nectar_delay := 5.0
+var is_pollinating := false
+var has_pollinated := false
+var pollinate_timer := 0.0
+@export var pollinate_delay := 5.0
 @export var nectar_count := 12
 
 @onready var sprite: Sprite2D = $Sprite2D
@@ -27,16 +30,22 @@ func _process(delta: float) -> void:
 			timer = 0.0
 			stage += 1
 			_update_sprite()
-	else:
-		_process_grown(delta)
+	elif is_pollinating:
+		pollinate_timer += delta
+		# Cute wiggle effect while pollinating
+		sprite.position.x = sin(pollinate_timer * 18.0) * 2.5
+		if pollinate_timer >= pollinate_delay:
+			sprite.position.x = 0.0
+			is_pollinating = false
+			has_pollinated = true
+			spit_nectar(nectar_count)
+			pollinated.emit()
 
-func _process_grown(delta: float) -> void:
-	if has_thrown_nectar:
+func start_pollination() -> void:
+	if is_pollinating or has_pollinated:
 		return
-	grown_timer += delta
-	if grown_timer >= nectar_delay:
-		has_thrown_nectar = true
-		spit_nectar(nectar_count)
+	is_pollinating = true
+	pollinate_timer = 0.0
 
 func spit_nectar(count: int = 12) -> void:
 	# Small squash & stretch bounce on the plant when it spits

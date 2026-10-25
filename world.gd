@@ -41,9 +41,15 @@ func _process(_delta: float) -> void:
 		else:
 			_show_prompt(cell, "Need seeds")
 	elif planted[cell].is_grown():
-		_show_prompt(cell, "Harvest [E]")
-		if Input.is_action_just_pressed("interact"):
-			harvest(cell)
+		var crop = planted[cell]
+		if crop.is_pollinating:
+			_show_prompt(cell, "Pollinating...")
+		elif not crop.has_pollinated:
+			_show_prompt(cell, "Pollinate [E]")
+			if Input.is_action_just_pressed("interact"):
+				pollinate(cell)
+		else:
+			prompt.visible = false
 	else:
 		prompt.visible = false
 
@@ -55,12 +61,19 @@ func plant(cell: Vector2i) -> void:
 	crop.setup(selected_seed)
 	planted[cell] = crop
 
-func harvest(cell: Vector2i) -> void:
+func pollinate(cell: Vector2i) -> void:
 	var crop = planted[cell]
-	crops_held += 1
-	crops_value += crop.data.sell_value
-	crop.queue_free()
-	planted.erase(cell)
+	if crop.is_pollinating or crop.has_pollinated:
+		return
+	crop.pollinated.connect(func():
+		crops_held += 1
+		crops_value += crop.data.sell_value
+		planted.erase(cell)
+		var t = create_tween()
+		t.tween_property(crop, "modulate:a", 0.0, 0.3)
+		t.tween_callback(crop.queue_free)
+	)
+	crop.start_pollination()
 
 			
 func _get_player_cell() -> Vector2i:

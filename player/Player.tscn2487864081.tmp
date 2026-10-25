@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cmfaaylcg7mmf"]
+
+[ext_resource type="Script" uid="uid://lwoi8dv273o" path="res://player/player.gd" id="1_xhfnw"]
+[ext_resource type="DragonBonesFactory" uid="uid://dmirt67g8anwf" path="res://player/beeplayer/Bee101_ske.dbfactory" id="2_3c3w1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_muqmd"]
+
+[node name="Player" type="CharacterBody2D" unique_id=1510979019]
+motion_mode = 1
+script = ExtResource("1_xhfnw")
+
+[node name="DragonBonesArmatureView" type="DragonBonesArmatureView" parent="." unique_id=371826594]
+factory = ExtResource("2_3c3w1")
+armature_settings = {
+&"current_animation": "[none]",
+"sub_armatures": {}
+}
+texture_filter = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=957325445]
+position = Vector2(0, -9)
+shape = SubResource("CapsuleShape2D_muqmd")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1228046260]

@@ -58,4 +58,3 @@ func _collect(player: Node2D) -> void:
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.18)
 	tween.chain().tween_callback(queue_free)
-

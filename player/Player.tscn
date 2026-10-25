@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cmfaaylcg7mmf"]
 
 [ext_resource type="Script" uid="uid://lwoi8dv273o" path="res://player/player.gd" id="1_xhfnw"]
-[ext_resource type="Texture2D" uid="uid://demlq4qafht78" path="res://player/839822061_1081365178015629_2293982304611490193_n.jpg.png" id="2_kpjcp"]
+[ext_resource type="DragonBonesFactory" uid="uid://dmirt67g8anwf" path="res://player/beeplayer/Bee101_ske.dbfactory" id="2_3c3w1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_muqmd"]
 
@@ -9,14 +9,18 @@
 motion_mode = 1
 script = ExtResource("1_xhfnw")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1344028557]
+[node name="DragonBonesArmatureView" type="DragonBonesArmatureView" parent="." unique_id=371826594]
+factory = ExtResource("2_3c3w1")
+armature_settings = {
+&"current_animation": "[none]",
+"sub_armatures": {}
+}
 texture_filter = 1
-position = Vector2(0.9999962, -30.999998)
-scale = Vector2(0.07116211, 0.07367187)
-texture = ExtResource("2_kpjcp")
+position = Vector2(0, -263)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=957325445]
-position = Vector2(0, -9)
+position = Vector2(0, -66)
+scale = Vector2(6, 6)
 shape = SubResource("CapsuleShape2D_muqmd")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1228046260]

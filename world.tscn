@@ -86,7 +86,8 @@ tile_set = SubResource("TileSet_ic0uy")
 
 [node name="Player" parent="." unique_id=1510979019 instance=ExtResource("2_fj7yv")]
 z_index = 1
-position = Vector2(240, -259)
+position = Vector2(157.00002, -268)
+scale = Vector2(0.13, 0.13)
 
 [node name="PromptLabel" type="Label" parent="." unique_id=217243809]
 visible = false
