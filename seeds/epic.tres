@@ -8,5 +8,7 @@
 
 [resource]
 script = ExtResource("1_drwxb")
+rarity = "Epic"
+price = 180
 stage_textures = Array[Texture2D]([ExtResource("2_ierer"), ExtResource("3_rvn52"), ExtResource("4_dyel0"), ExtResource("5_3sf6q")])
 metadata/_custom_type_script = "uid://dnbaohyxgy56c"

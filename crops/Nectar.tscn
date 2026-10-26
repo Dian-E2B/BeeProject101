@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b8d81k2y732nv"]
 
-[ext_resource type="Script" path="res://crops/nectar.gd" id="1_nectar"]
+[ext_resource type="Script" uid="uid://bu6kl8folfe4m" path="res://crops/nectar.gd" id="1_nectar"]
 
 [sub_resource type="Gradient" id="Gradient_nectar"]
 offsets = PackedFloat32Array(0, 0.45, 0.85, 1)
@@ -17,14 +17,12 @@ fill_to = Vector2(0.5, 0)
 [sub_resource type="CircleShape2D" id="CircleShape2D_nectar"]
 radius = 16.0
 
-[node name="Nectar" type="Area2D"]
+[node name="Nectar" type="Area2D" unique_id=971776336]
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("1_nectar")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=417272889]
 texture = SubResource("GradientTexture2D_nectar")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1842836295]
 shape = SubResource("CircleShape2D_nectar")
-

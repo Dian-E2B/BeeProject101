@@ -31,9 +31,6 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="SeedBox" type="VBoxContainer" parent="Panel/VBoxContainer" unique_id=2025680339]
-layout_mode = 2
-
 [node name="Title" type="Label" parent="Panel/VBoxContainer" unique_id=780609800]
 layout_mode = 2
 text = "Market
@@ -42,10 +39,13 @@ text = "Market
 [node name="Info" type="Label" parent="Panel/VBoxContainer" unique_id=1379380282]
 layout_mode = 2
 
-[node name="SellButton" type="Button" parent="Panel/VBoxContainer" unique_id=1050012181]
+[node name="SeedBox" type="VBoxContainer" parent="Panel/VBoxContainer" unique_id=2025680339]
+layout_mode = 2
+
+[node name="ConvertButton" type="Button" parent="Panel/VBoxContainer" unique_id=382931690]
 layout_mode = 2
 focus_mode = 0
-text = "Sell all crops"
+text = "Convert nectar"
 
 [node name="CloseButton" type="Button" parent="Panel/VBoxContainer" unique_id=2113190622]
 layout_mode = 2

@@ -1,7 +1,5 @@
 extends Node2D
-
 signal pollinated
-
 const NECTAR_SCENE := preload("res://crops/Nectar.tscn")
 
 var data: SeedData

@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://ctkp2mvetuokr"]
+
+[ext_resource type="Script" uid="uid://bdhkd0bpcbo1g" path="res://inventory/inventory.gd" id="1_62wf1"]
+
+[node name="Inventory" type="CanvasLayer" unique_id=1678664971]
+script = ExtResource("1_62wf1")
+
+[node name="Panel" type="PanelContainer" parent="." unique_id=1306002776]
+custom_minimum_size = Vector2(300, 250)
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=1104490130]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/VBox" unique_id=465473601]
+layout_mode = 2
+
+[node name="StatsLabel" type="Label" parent="Panel/VBox" unique_id=85417134]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Panel/VBox" unique_id=1259335633]
+layout_mode = 2
+
+[node name="SeedsHeader" type="Label" parent="Panel/VBox" unique_id=58530852]
+layout_mode = 2
+
+[node name="SeedList" type="VBoxContainer" parent="Panel/VBox" unique_id=581542869]
+layout_mode = 2

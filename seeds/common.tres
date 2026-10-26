@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="SeedData" format=3 uid="uid://cacr7w7hqf4wu"]
 
+[ext_resource type="Texture2D" uid="uid://cugc38421dxxb" path="res://seeds/received_1972930550044371.jpeg" id="1_jwbsy"]
 [ext_resource type="Script" uid="uid://dnbaohyxgy56c" path="res://seeds/seed_data.gd" id="1_pfo3n"]
 [ext_resource type="Texture2D" uid="uid://40q4moelhxrx" path="res://crops/crop1.png" id="2_x88dn"]
 [ext_resource type="Texture2D" uid="uid://c5locxa502jpk" path="res://crops/crop2.png" id="3_jwbsy"]
@@ -8,7 +9,8 @@
 
 [resource]
 script = ExtResource("1_pfo3n")
-price = 24
-sell_value = 24
+icon = ExtResource("1_jwbsy")
+price = 0
+sell_value = 0
 stage_textures = Array[Texture2D]([ExtResource("2_x88dn"), ExtResource("3_jwbsy"), ExtResource("4_x1f5t"), ExtResource("5_g3ias")])
 metadata/_custom_type_script = "uid://dnbaohyxgy56c"

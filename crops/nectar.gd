@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var honey_value := 1
+@export var nectar_value := 1
 @onready var sprite: Sprite2D = $Sprite2D
 
 var can_collect := false
@@ -45,14 +46,11 @@ func _on_body_entered(body: Node2D) -> void:
 		_collect(body)
 
 func _collect(player: Node2D) -> void:
-	# Add honey to world
 	var world = get_tree().current_scene
-	if world and "honey" in world:
-		world.honey += honey_value
-		if world.has_method("_refresh_market"):
-			world._refresh_market()
-	
-	# Cute pickup animation: fly into player and shrink
+	if world and world.has_method("add_nectar"):
+		world.add_nectar(nectar_value)
+
+	# pickup tween stays the same
 	var tween = create_tween().set_parallel(true)
 	tween.tween_property(self, "global_position", player.global_position, 0.18)\
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)

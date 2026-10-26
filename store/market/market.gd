@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-signal sell_requested
+signal convert_requested          # was: sell_requested
 signal buy_requested(seed_data: SeedData)
 signal closed
 
@@ -8,17 +8,18 @@ signal closed
 
 @onready var info: Label = $Panel/VBoxContainer/Info
 @onready var seed_box: VBoxContainer = $Panel/VBoxContainer/SeedBox
+const SEED_CARD := preload("res://seeds/Seedcard.tscn") 
 
 func _ready() -> void:
 	visible = false
-	$Panel/VBoxContainer/SellButton.pressed.connect(func(): sell_requested.emit())
+	$Panel/VBoxContainer/ConvertButton.pressed.connect(func(): convert_requested.emit())   # was: SellButton / sell_requested
 	$Panel/VBoxContainer/CloseButton.pressed.connect(close)
 	for s in seed_list:
-		var b := Button.new()
-		b.text = "%s Seed - %d honey" % [s.rarity, s.price]
-		b.focus_mode = Control.FOCUS_NONE
-		b.pressed.connect(func(): buy_requested.emit(s))
-		seed_box.add_child(b)
+			var card := SEED_CARD.instantiate()
+			seed_box.add_child(card)      # add first, so the @onready nodes exist
+			card.setup(s)                 # then fill in the data
+			card.focus_mode = Control.FOCUS_NONE
+			card.pressed.connect(func(): buy_requested.emit(s))
 
 func open() -> void:
 	visible = true

@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dvidew40e78hq" path="res://tile/plot1.png" id="7_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://btsly4a5t82v5" path="res://store/Store.tscn" id="8_gbfbk"]
 [ext_resource type="PackedScene" uid="uid://my7ftjh8kmje" path="res://store/market/Market.tscn" id="9_ioo17"]
+[ext_resource type="PackedScene" uid="uid://ctkp2mvetuokr" path="res://inventory/inventory.tscn" id="10_wse8f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pkg7o"]
 texture = ExtResource("1_fj7yv")
@@ -100,3 +101,5 @@ position = Vector2(147.00002, -228.00002)
 scale = Vector2(7.4036717, 7.1392856)
 
 [node name="Market" parent="." unique_id=152536498 instance=ExtResource("9_ioo17")]
+
+[node name="Inventory" parent="." unique_id=1725923586 instance=ExtResource("10_wse8f")]
