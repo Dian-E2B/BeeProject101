@@ -97,6 +97,7 @@ text = "Plant [E]"
 
 [node name="Store" parent="." unique_id=135781501 instance=ExtResource("8_gbfbk")]
 position = Vector2(147.00002, -228.00002)
+rotation = -0.004366609
 scale = Vector2(7.4036717, 7.1392856)
 
 [node name="Market" parent="." unique_id=152536498 instance=ExtResource("9_ioo17")]

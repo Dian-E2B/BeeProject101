@@ -8,46 +8,68 @@
 [ext_resource type="Resource" uid="uid://c56jxfom0vkp1" path="res://seeds/epic.tres" id="6_64g4q"]
 [ext_resource type="Resource" uid="uid://dgtekx4eqy8d1" path="res://seeds/legendary.tres" id="7_hsdge"]
 [ext_resource type="Resource" uid="uid://cytaryhxm2emj" path="res://seeds/mythical.tres" id="8_aoau1"]
+[ext_resource type="Texture2D" uid="uid://ckkvcsgctfxjb" path="res://seeds/Shop_UI.jpeg.png" id="9_xmm5j"]
 
 [node name="Market" type="CanvasLayer" unique_id=152536498]
 script = ExtResource("1_6ixgx")
 seed_list = Array[ExtResource("2_u8f6n")]([ExtResource("3_xmm5j"), ExtResource("4_qpu6o"), ExtResource("5_mfbxb"), ExtResource("6_64g4q"), ExtResource("7_hsdge"), ExtResource("8_aoau1")])
 
-[node name="Panel" type="Panel" parent="." unique_id=31246829]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -196.0
-offset_top = -246.0
-offset_right = 193.0
-offset_bottom = 50.0
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=714705426]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1075201292]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="TextureRect" type="TextureRect" parent="CenterContainer" unique_id=2001065684]
+custom_minimum_size = Vector2(437, 432)
+layout_mode = 2
+texture = ExtResource("9_xmm5j")
+expand_mode = 1
 
-[node name="SeedBox" type="VBoxContainer" parent="Panel/VBoxContainer" unique_id=2025680339]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/TextureRect" unique_id=1372395563]
+texture_filter = 1
+propagate_maximum_size = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 65.0
+offset_top = 87.0
+offset_right = -64.5
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+localize_numeral_system = false
+
+[node name="SeedBox" type="GridContainer" parent="CenterContainer/TextureRect/MarginContainer" unique_id=1385258615]
+unique_name_in_owner = true
+texture_filter = 4
+propagate_maximum_size = false
+layout_mode = 2
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1075201292]
+propagate_maximum_size = false
+offset_left = 26.0
+offset_top = 43.0
+offset_right = 130.0
+offset_bottom = 136.0
+
+[node name="Info" type="Label" parent="VBoxContainer" unique_id=1379380282]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Panel/VBoxContainer" unique_id=780609800]
-layout_mode = 2
-text = "Market
-"
-
-[node name="Info" type="Label" parent="Panel/VBoxContainer" unique_id=1379380282]
-layout_mode = 2
-
-[node name="SellButton" type="Button" parent="Panel/VBoxContainer" unique_id=1050012181]
+[node name="SellButton" type="Button" parent="VBoxContainer" unique_id=1050012181]
+unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Sell all crops"
 
-[node name="CloseButton" type="Button" parent="Panel/VBoxContainer" unique_id=2113190622]
+[node name="CloseButton" type="Button" parent="VBoxContainer" unique_id=2113190622]
+unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
-text = "Close"
+text = "Close
+"
+flat = true
