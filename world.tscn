@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://btsly4a5t82v5" path="res://store/Store.tscn" id="8_gbfbk"]
 [ext_resource type="PackedScene" uid="uid://my7ftjh8kmje" path="res://store/market/Market.tscn" id="9_ioo17"]
 [ext_resource type="PackedScene" uid="uid://ctkp2mvetuokr" path="res://inventory/inventory.tscn" id="10_wse8f"]
+[ext_resource type="PackedScene" uid="uid://kdvjjp08gp34" path="res://seeds/seedmarkets.tscn" id="11_ic0uy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pkg7o"]
 texture = ExtResource("1_fj7yv")
@@ -87,7 +88,7 @@ tile_set = SubResource("TileSet_ic0uy")
 
 [node name="Player" parent="." unique_id=1510979019 instance=ExtResource("2_fj7yv")]
 z_index = 1
-position = Vector2(157.00002, -268)
+position = Vector2(-18, -93)
 scale = Vector2(0.13, 0.13)
 
 [node name="PromptLabel" type="Label" parent="." unique_id=217243809]
@@ -97,9 +98,11 @@ offset_bottom = 23.0
 text = "Plant [E]"
 
 [node name="Store" parent="." unique_id=135781501 instance=ExtResource("8_gbfbk")]
-position = Vector2(147.00002, -228.00002)
+position = Vector2(153.00003, -229)
 scale = Vector2(7.4036717, 7.1392856)
 
 [node name="Market" parent="." unique_id=152536498 instance=ExtResource("9_ioo17")]
 
 [node name="Inventory" parent="." unique_id=1725923586 instance=ExtResource("10_wse8f")]
+
+[node name="SeedMarket" parent="." unique_id=795662040 instance=ExtResource("11_ic0uy")]

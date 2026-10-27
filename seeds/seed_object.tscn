@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://djfnwuktnogtk"]
+
+[ext_resource type="Script" uid="uid://b8momttnjqa7g" path="res://seeds/seed_object.gd" id="1_dqlow"]
+[ext_resource type="Texture2D" uid="uid://bg78adcwsqq83" path="res://seeds/common_seed.png" id="1_ycjsa"]
+[ext_resource type="Resource" uid="uid://cacr7w7hqf4wu" path="res://seeds/common.tres" id="2_ahwig"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_muqmd"]
+font_size = 13
+font_color = Color(0.40784314, 0.21176471, 0.11372549, 1)
+
+[node name="SeedObject" type="Button" unique_id=1721039133]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -281.0
+offset_bottom = -736.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dqlow")
+seed_data = ExtResource("2_ahwig")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=786829181]
+layout_mode = 0
+offset_left = 1.0
+offset_right = 110.0
+offset_bottom = 107.0
+texture = ExtResource("1_ycjsa")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="TextureRect" unique_id=1201803399]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 61.0
+offset_right = 93.0
+offset_bottom = 84.0
+text = "12"
+label_settings = SubResource("LabelSettings_muqmd")
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect/Label" unique_id=1416553730]
+layout_mode = 0
+offset_left = -14.0
+offset_top = 3.0
+offset_right = 6.0
+offset_bottom = 17.0

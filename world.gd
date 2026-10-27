@@ -8,9 +8,9 @@ const CROP_SCENE := preload("res://crops/Crops.tscn")
 @onready var prompt: Label = $PromptLabel
 
 @onready var store = $Store
-@onready var market = $Market
-
+#@onready var market = $Market
 @onready var inventory = $Inventory
+@onready var seed_market = $SeedMarket
 
 var honey := 24
 var crops_held := 0
@@ -24,18 +24,20 @@ var market_open := false
 var planted := {}   # cell (Vector2i) -> Crop node
 func _ready() -> void:
 	store.interacted.connect(_open_market)
+	store.interacted.connect(_on_market_opened)
+	store.interacted.connect(_on_market_closed)
 	# market.sell_requested.connect(_sell_all)
-	market.buy_requested.connect(_buy_seed)
-	market.convert_requested.connect(_convert_nectar)
+	# market.buy_requested.connect(_buy_seed)
+	# market.convert_requested.connect(_convert_nectar)
 	# selected_seed = preload("res://seeds/common.tres")
 	# seeds[selected_seed] = 3
 	inventory.seed_selected.connect(_on_seed_selected)
 	inventory.opened.connect(_freeze_player)
 	inventory.closed.connect(func(): player.set_physics_process(true))
-	market.closed.connect(func():
-		market_open = false
-		player.set_physics_process(true)
-	)
+	# market.closed.connect(func():
+	# 	market_open = false
+	# 	player.set_physics_process(true)
+	# )
 	
 func _process(_delta: float) -> void:
 	if inventory.is_open():
@@ -111,13 +113,17 @@ func _show_prompt(cell: Vector2i, text: String) -> void:
 
 
 func _open_market() -> void:
+	if seed_market.visible:
+		seed_market.close()
+		return
 	if inventory.is_open():
 		inventory.close()
-	market_open = true
-	player.set_physics_process(false)
-	player.velocity = Vector2.ZERO
-	_refresh_market()
-	market.open()
+	seed_market.open()
+	# market_open = true
+	# player.set_physics_process(false)
+	# player.velocity = Vector2.ZERO
+	# _refresh_market()
+	# market.open()
 
 # func _sell_all() -> void:
 # 	honey += crops_value
@@ -150,7 +156,7 @@ func _refresh_market() -> void:
 	var planting := "none"
 	if selected_seed != null:
 		planting = "%s x%d" % [selected_seed.rarity, owned]
-	market.update_info("Honey: %d\nNectar: %d (converts to %d honey)\nPlanting: %s" % [honey, nectar, nectar / NECTAR_PER_HONEY, planting])
+	# market.update_info("Honey: %d\nNectar: %d (converts to %d honey)\nPlanting: %s" % [honey, nectar, nectar / NECTAR_PER_HONEY, planting])
 	_refresh_inventory()
 
 func has_seed() -> bool:
@@ -182,3 +188,13 @@ func _refresh_inventory() -> void:
 		"seeds": seeds,
 		"selected_seed": selected_seed,
 	})
+
+func _on_market_opened() -> void:
+	market_open = true
+	player.set_physics_process(false)
+	player.velocity = Vector2.ZERO
+	_refresh_market()
+
+func _on_market_closed() -> void:
+	market_open = false
+	player.set_physics_process(true)

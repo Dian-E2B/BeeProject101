@@ -1,14 +1,39 @@
 [gd_scene format=3 uid="uid://kdvjjp08gp34"]
 
-[node name="Seedmarkets" type="Control" unique_id=1531636519]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[ext_resource type="Texture2D" uid="uid://ckkvcsgctfxjb" path="res://seeds/Shop_UI.jpeg.png" id="1_f2vn3"]
+[ext_resource type="Script" uid="uid://bk5xv4ddpnel4" path="res://seeds/seedmarkets.gd" id="1_q1l66"]
+[ext_resource type="PackedScene" uid="uid://djfnwuktnogtk" path="res://seeds/seed_object.tscn" id="3_goanl"]
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=846915030]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="SeedMarket" type="CanvasLayer" unique_id=1100993977]
+script = ExtResource("1_q1l66")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=2133452217]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -204.0
+offset_top = -7.0
+offset_right = 211.0
+offset_bottom = 300.0
+grow_horizontal = 2
+texture = ExtResource("1_f2vn3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=551574626]
+offset_left = 41.0
+offset_top = 52.0
+offset_right = 347.0
+offset_bottom = 243.0
+
+[node name="SeedObject" parent="." unique_id=673657133 instance=ExtResource("3_goanl")]
+offset_left = 49.0
+offset_top = 64.0
+offset_right = -232.0
+offset_bottom = -672.0
+
+[node name="SeedObject2" parent="." unique_id=1326142297 instance=ExtResource("3_goanl")]
+offset_left = 49.0
+offset_top = 64.0
+offset_right = -232.0
+offset_bottom = -672.0
