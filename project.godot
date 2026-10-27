@@ -16,14 +16,24 @@ auto_generate_dbfactory=true
 
 config/name="sample102"
 run/main_scene="uid://53m3wgnapd5q"
+run/disable_stdout=true
+run/disable_stderr=true
+run/print_header=false
 config/features=PackedStringArray("4.7", "Mobile")
+run/low_processor_mode=true
 config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=390
-window/size/viewport_height=844
+window/size/viewport_width=414
+window/size/viewport_height=896
 window/stretch/mode="canvas_items"
+window/handheld/orientation=1
+
+[filesystem]
+
+import/fbx2gltf/enabled.android=true
+import/blender/enabled.android=true
 
 [input]
 
@@ -77,5 +87,6 @@ pointing/emulate_touch_from_mouse=true
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true
