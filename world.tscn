@@ -8,10 +8,18 @@
 [ext_resource type="PackedScene" uid="uid://b65kar3jscu2d" path="res://Uis/MoveUI.tscn" id="4_aqk2v"]
 [ext_resource type="Texture2D" uid="uid://dvidew40e78hq" path="res://tile/plot1.png" id="7_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://btsly4a5t82v5" path="res://store/Store.tscn" id="8_gbfbk"]
-[ext_resource type="PackedScene" uid="uid://my7ftjh8kmje" path="res://store/market/Market.tscn" id="9_ioo17"]
+[ext_resource type="Script" uid="uid://3lmyw1yxbnms" path="res://store/market/market.gd" id="9_26xuy"]
+[ext_resource type="Script" uid="uid://dnbaohyxgy56c" path="res://seeds/seed_data.gd" id="10_bc84e"]
 [ext_resource type="PackedScene" uid="uid://cgkfwvms8t2ld" path="res://playerstats/CharStats.tscn" id="10_wse8f"]
 [ext_resource type="Script" uid="uid://bwu78kb5050cm" path="res://options/inventory.gd" id="11_k3n1d"]
+[ext_resource type="Resource" uid="uid://cacr7w7hqf4wu" path="res://seeds/common.tres" id="11_wukud"]
 [ext_resource type="Texture2D" uid="uid://cva81cpaxwk3i" path="res://options/inventory_ui.png" id="12_2o6r5"]
+[ext_resource type="Resource" uid="uid://xkrw438wwvfd" path="res://seeds/uncommon.tres" id="12_il2jm"]
+[ext_resource type="Resource" uid="uid://c8562xiyisa3i" path="res://seeds/rare.tres" id="13_wjb0r"]
+[ext_resource type="Resource" uid="uid://c56jxfom0vkp1" path="res://seeds/epic.tres" id="14_mc2jv"]
+[ext_resource type="Resource" uid="uid://dgtekx4eqy8d1" path="res://seeds/legendary.tres" id="15_bo7i5"]
+[ext_resource type="Resource" uid="uid://cytaryhxm2emj" path="res://seeds/mythical.tres" id="16_4h6ng"]
+[ext_resource type="Texture2D" uid="uid://ckkvcsgctfxjb" path="res://seeds/Shop_UI.jpeg.png" id="17_o3ebs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pkg7o"]
 texture = ExtResource("1_fj7yv")
@@ -58,16 +66,6 @@ tile_size = Vector2i(256, 128)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_wse8f")
 
-[sub_resource type="FontVariation" id="FontVariation_7ceib"]
-
-[sub_resource type="FontVariation" id="FontVariation_kofmf"]
-base_font = SubResource("FontVariation_7ceib")
-
-[sub_resource type="LabelSettings" id="LabelSettings_q3p3c"]
-font = SubResource("FontVariation_kofmf")
-font_size = 21
-font_color = Color(0.53333336, 0.29411766, 0.20392157, 1)
-
 [node name="World" type="Node2D" unique_id=2018735311]
 script = ExtResource("1_dwbse")
 
@@ -113,7 +111,74 @@ position = Vector2(147.00002, -228.00002)
 rotation = -0.004366609
 scale = Vector2(7.4036717, 7.1392856)
 
-[node name="Market" parent="." unique_id=152536498 instance=ExtResource("9_ioo17")]
+[node name="Market" type="CanvasLayer" parent="." unique_id=152536498]
+script = ExtResource("9_26xuy")
+seed_list = Array[ExtResource("10_bc84e")]([ExtResource("11_wukud"), ExtResource("12_il2jm"), ExtResource("13_wjb0r"), ExtResource("14_mc2jv"), ExtResource("15_bo7i5"), ExtResource("16_4h6ng")])
+
+[node name="CenterContainer" type="CenterContainer" parent="Market" unique_id=714705426]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -11.5
+offset_right = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Market/CenterContainer" unique_id=2001065684]
+custom_minimum_size = Vector2(437, 432)
+layout_mode = 2
+texture = ExtResource("17_o3ebs")
+expand_mode = 1
+
+[node name="SeedBox" type="GridContainer" parent="Market/CenterContainer/TextureRect" unique_id=1280467613]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 80.5
+offset_top = 103.0
+offset_right = 352.5
+offset_bottom = 322.0
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 100
+accessibility_region = true
+columns = 3
+
+[node name="Info" type="Label" parent="Market" unique_id=1379380282]
+unique_name_in_owner = true
+offset_left = 12.0
+offset_top = 44.0
+offset_right = 116.0
+offset_bottom = 67.0
+
+[node name="SellButton" type="Button" parent="Market" unique_id=1050012181]
+unique_name_in_owner = true
+visible = false
+offset_left = 21.0
+offset_top = 221.0
+offset_right = 125.0
+offset_bottom = 252.0
+focus_mode = 0
+text = "Sell all crops"
+
+[node name="CloseButton" type="Button" parent="Market" unique_id=2113190622]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+offset_left = 361.0
+offset_top = 260.0
+offset_right = 411.0
+offset_bottom = 291.0
+focus_mode = 0
+text = "Close
+"
+flat = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Market" unique_id=1075201292]
+visible = false
+propagate_maximum_size = false
+offset_left = 26.0
+offset_top = 43.0
+offset_right = 130.0
+offset_bottom = 136.0
 
 [node name="CharStats" parent="." unique_id=1970819950 instance=ExtResource("10_wse8f")]
 
@@ -136,26 +201,20 @@ layout_mode = 2
 texture = ExtResource("12_2o6r5")
 expand_mode = 1
 
-[node name="Content" type="VBoxContainer" parent="Inventory/CenterContainer" unique_id=803122185]
-custom_minimum_size = Vector2(320, 320)
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Title" type="Label" parent="Inventory/CenterContainer/Content" unique_id=58725317]
-visible = false
-layout_mode = 2
-text = "Seed Inventory"
-label_settings = SubResource("LabelSettings_q3p3c")
-horizontal_alignment = 1
-
-[node name="SeedScroll" type="ScrollContainer" parent="Inventory/CenterContainer/Content" unique_id=1769240760]
-custom_minimum_size = Vector2(320, 270)
+[node name="SeedScroll" type="ScrollContainer" parent="Inventory/CenterContainer" unique_id=1769240760]
+custom_minimum_size = Vector2(307, 283)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="SeedList" type="GridContainer" parent="Inventory/CenterContainer/Content/SeedScroll" unique_id=1769240759]
+[node name="SeedList" type="GridContainer" parent="Inventory/CenterContainer/SeedScroll" unique_id=1769240759]
 unique_name_in_owner = true
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
-columns = 4
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 100
+accessibility_region = true
+columns = 3
+
+[editable path="CharStats"]

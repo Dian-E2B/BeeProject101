@@ -1,14 +1,26 @@
 [gd_scene format=3 uid="uid://ch87kc4vm1x5y"]
 
+[ext_resource type="Script" uid="uid://blfwmqunpkjd7" path="res://inventory/seed_card.gd" id="1_vmvep"]
+[ext_resource type="Texture2D" uid="uid://bg78adcwsqq83" path="res://seeds/common_seed.png" id="2_800ie"]
+
 [node name="SeedCard" type="Button" unique_id=1235282186]
+offset_right = 369.0
+offset_bottom = 520.0
+flat = true
+script = ExtResource("1_vmvep")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1426183183]
+[node name="IconRect" type="TextureRect" parent="." unique_id=2102574831]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 60.0
+offset_bottom = 60.0
+texture = ExtResource("2_800ie")
+expand_mode = 1
 
-[node name="IconRect" type="TextureRect" parent="VBoxContainer" unique_id=2102574831]
-layout_mode = 2
-
-[node name="CountLabel" type="Label" parent="VBoxContainer" unique_id=1670322091]
-layout_mode = 2
+[node name="CountLabel" type="Label" parent="." unique_id=1670322091]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 54.0
+offset_right = 51.0
+offset_bottom = 77.0
+horizontal_alignment = 1
+vertical_alignment = 1
