@@ -13,7 +13,7 @@ const CROP_SCENE := preload("res://crops/Crops.tscn")
 @onready var inventory: CanvasLayer = $Inventory
 
 
-var honey := 200
+var honey := 1000
 var nectar_total := 0
 var crops_held := 0
 var crops_value := 0

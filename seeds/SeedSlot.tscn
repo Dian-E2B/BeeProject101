@@ -1,27 +1,32 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://u2pes8c6u10n"]
 
-[ext_resource type="Script" path="res://seeds/seed_slot.gd" id="1_seed_slot"]
-[ext_resource type="Texture2D" path="res://seeds/common_seed.png" id="2_seed_icon"]
+[ext_resource type="Script" uid="uid://bi0xjadedvm12" path="res://seeds/seed_slot.gd" id="1_seed_slot"]
+[ext_resource type="Texture2D" uid="uid://bg78adcwsqq83" path="res://seeds/common_seed.png" id="2_seed_icon"]
 
-[node name="SeedSlot" type="Button"]
-custom_minimum_size = Vector2(100, 100)
+[node name="SeedSlot" type="Button" unique_id=1766800485]
+offset_left = 1.0
+offset_right = 66.0
+offset_bottom = 65.0
 flat = true
+icon_alignment = 1
+expand_icon = true
 script = ExtResource("1_seed_slot")
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="Icon" type="TextureRect" parent="." unique_id=524835664]
 unique_name_in_owner = true
-offset_left = 8.0
-offset_top = 4.0
-offset_right = 92.0
-offset_bottom = 76.0
+layout_mode = 0
+offset_left = -1.0
+offset_top = 1.0
+offset_right = 59.0
+offset_bottom = 64.0
 texture = ExtResource("2_seed_icon")
 expand_mode = 1
-stretch_mode = 5
 
-[node name="PriceLabel" type="Label" parent="."]
+[node name="PriceLabel" type="Label" parent="." unique_id=528009570]
 unique_name_in_owner = true
-offset_left = 4.0
-offset_top = 76.0
-offset_right = 96.0
-offset_bottom = 98.0
+layout_mode = 0
+offset_left = 1.0
+offset_top = 64.0
+offset_right = 60.0
+offset_bottom = 87.0
 horizontal_alignment = 1

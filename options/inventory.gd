@@ -17,15 +17,11 @@ func get_inventory(seed_counts: Dictionary) -> void:
 			continue
 		has_seeds = true
 		var card := Button.new()
-		card.custom_minimum_size = Vector2(100, 100)
 		card.flat = true
 		var card_content := VBoxContainer.new()
-		card_content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		card_content.add_theme_constant_override("separation", 2)
-		card.add_child(card_content)
+		
 
 		var icon := TextureRect.new()
-		icon.custom_minimum_size = Vector2(64, 64)
 		icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon.texture = seed_data.icon

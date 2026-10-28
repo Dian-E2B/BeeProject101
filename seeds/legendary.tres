@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="SeedData" format=3 uid="uid://dgtekx4eqy8d1"]
 
+[ext_resource type="Texture2D" uid="uid://bg78adcwsqq83" path="res://seeds/common_seed.png" id="1_lo8k0"]
 [ext_resource type="Script" uid="uid://dnbaohyxgy56c" path="res://seeds/seed_data.gd" id="1_xih1l"]
 [ext_resource type="Texture2D" uid="uid://40q4moelhxrx" path="res://crops/crop1.png" id="2_6v35n"]
 [ext_resource type="Texture2D" uid="uid://c5locxa502jpk" path="res://crops/crop2.png" id="3_lo8k0"]
@@ -9,6 +10,7 @@
 [resource]
 script = ExtResource("1_xih1l")
 rarity = "Legendary"
+icon = ExtResource("1_lo8k0")
 price = 768
 stage_textures = Array[Texture2D]([ExtResource("2_6v35n"), ExtResource("3_lo8k0"), ExtResource("4_7ve04"), ExtResource("5_ay2wo")])
 metadata/_custom_type_script = "uid://dnbaohyxgy56c"

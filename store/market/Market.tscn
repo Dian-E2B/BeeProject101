@@ -29,26 +29,17 @@ layout_mode = 2
 texture = ExtResource("9_xmm5j")
 expand_mode = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/TextureRect" unique_id=1372395563]
-texture_filter = 1
-propagate_maximum_size = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 65.0
-offset_top = 87.0
-offset_right = -64.5
-offset_bottom = -26.0
-grow_horizontal = 2
-grow_vertical = 2
-localize_numeral_system = false
-
-[node name="SeedBox" type="GridContainer" parent="CenterContainer/TextureRect/MarginContainer" unique_id=1385258615]
+[node name="SeedBox" type="GridContainer" parent="CenterContainer/TextureRect" unique_id=1280467613]
 unique_name_in_owner = true
-texture_filter = 4
-propagate_maximum_size = false
-layout_mode = 2
+texture_filter = 1
+layout_mode = 0
+offset_left = 80.5
+offset_top = 103.0
+offset_right = 352.5
+offset_bottom = 322.0
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 100
+accessibility_region = true
 columns = 3
 
 [node name="Info" type="Label" parent="." unique_id=1379380282]
