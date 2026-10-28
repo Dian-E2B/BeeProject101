@@ -5,10 +5,10 @@ signal buy_requested(seed_data: SeedData)
 signal closed
 
 @export var seed_list: Array[SeedData]
-@onready var info: Label = %Info
 @onready var seed_box: GridContainer = %SeedBox
 @onready var sell_button: Button = %SellButton
 @onready var close_button: Button = %CloseButton
+@onready var info_label: Label = %Info
 const SEED_SLOT := preload("res://seeds/SeedSlot.tscn")
 
 func _ready() -> void:
@@ -28,5 +28,5 @@ func close() -> void:
 	visible = false
 	closed.emit()
 
-func update_info(text: String) -> void:
-	info.text = text
+func update_info(crops_held: int, crops_value: int, planting: String) -> void:
+	info_label.text = "Crops: %d\nValue: %d\nPlanting: %s" % [crops_held, crops_value, planting]

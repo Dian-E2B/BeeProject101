@@ -4,22 +4,25 @@
 [ext_resource type="Script" uid="uid://08vhub66hpks" path="res://controls/move_ui.gd" id="1_nt8f0"]
 
 [node name="MoveUi" type="CanvasLayer" unique_id=1756824548]
+layer = 2
 script = ExtResource("1_nt8f0")
 
-[node name="Joystick" type="Control" parent="." unique_id=1874728850]
-layout_mode = 3
-anchor_left = 0.19500001
-anchor_top = 0.84400004
-anchor_right = 0.441
-anchor_bottom = 0.94900006
-offset_left = 35.269997
-offset_top = -45.22406
-offset_right = -36.990005
-offset_bottom = -105.19208
+[node name="Joystick" type="VirtualJoystick" parent="." unique_id=1510471326]
+self_modulate = Color(1, 1, 1, 0.12941177)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = 706.0
+offset_right = -240.0
+offset_bottom = -54.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+joystick_mode = 1
+joystick_size = 89.0
+visibility_mode = 1
 script = ExtResource("1_ln83p")
 
 [node name="Interact" type="Button" parent="." unique_id=597349913]
@@ -28,11 +31,26 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -145.0
-offset_top = -165.0
-offset_right = -108.0
-offset_bottom = -124.0
+offset_left = -114.0
+offset_top = -88.0
+offset_right = -77.0
+offset_bottom = -47.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
 text = "E"
+
+[node name="Inventory" type="Button" parent="." unique_id=178993214]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_top = -154.0
+offset_right = -79.0
+offset_bottom = -113.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+text = "I"

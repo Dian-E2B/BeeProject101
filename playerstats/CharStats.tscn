@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cgkfwvms8t2ld"]
+
+[ext_resource type="Script" uid="uid://dti3qf751yqgb" path="res://playerstats/char_stats.gd" id="1_wc4b6"]
+[ext_resource type="Texture2D" uid="uid://eaqx7bam2yae" path="res://Uis/honey_jar.png" id="2_xy2se"]
+
+[node name="CharStats" type="CanvasLayer" unique_id=1970819950]
+script = ExtResource("1_wc4b6")
+
+[node name="HoneyStats" type="Label" parent="." unique_id=1060277852]
+offset_right = 76.0
+offset_bottom = 49.0
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="HoneyStats" unique_id=219788490]
+layout_mode = 0
+offset_right = 49.0
+offset_bottom = 49.0
+texture = ExtResource("2_xy2se")
+expand_mode = 1
+
+[node name="NectarStats" type="Label" parent="." unique_id=467431254]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

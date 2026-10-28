@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+sample102.apk
+sample102work.apk

@@ -8,6 +8,7 @@ var touch_id := -1
 var output := Vector2.ZERO
 
 func _ready():
+	print("JOYSTICK READY")
 	custom_minimum_size = Vector2.ONE * radius * 2
 	size = custom_minimum_size
 

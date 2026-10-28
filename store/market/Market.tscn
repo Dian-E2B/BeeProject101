@@ -18,6 +18,8 @@ seed_list = Array[ExtResource("2_u8f6n")]([ExtResource("3_xmm5j"), ExtResource("
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -11.5
+offset_right = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -49,27 +51,39 @@ propagate_maximum_size = false
 layout_mode = 2
 columns = 3
 
+[node name="Info" type="Label" parent="." unique_id=1379380282]
+unique_name_in_owner = true
+offset_left = 12.0
+offset_top = 44.0
+offset_right = 116.0
+offset_bottom = 67.0
+
+[node name="SellButton" type="Button" parent="." unique_id=1050012181]
+unique_name_in_owner = true
+visible = false
+offset_left = 21.0
+offset_top = 221.0
+offset_right = 125.0
+offset_bottom = 252.0
+focus_mode = 0
+text = "Sell all crops"
+
+[node name="CloseButton" type="Button" parent="." unique_id=2113190622]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+offset_left = 361.0
+offset_top = 260.0
+offset_right = 411.0
+offset_bottom = 291.0
+focus_mode = 0
+text = "Close
+"
+flat = true
+
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1075201292]
+visible = false
 propagate_maximum_size = false
 offset_left = 26.0
 offset_top = 43.0
 offset_right = 130.0
 offset_bottom = 136.0
-
-[node name="Info" type="Label" parent="VBoxContainer" unique_id=1379380282]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="SellButton" type="Button" parent="VBoxContainer" unique_id=1050012181]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "Sell all crops"
-
-[node name="CloseButton" type="Button" parent="VBoxContainer" unique_id=2113190622]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 0
-text = "Close
-"
-flat = true

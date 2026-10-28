@@ -1,9 +1,12 @@
 extends Area2D
 
-@export var honey_value := 1
+@export var value := 1  
 @onready var sprite: Sprite2D = $Sprite2D
 
 var can_collect := false
+
+
+signal collected(value: int)
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -31,13 +34,14 @@ func launch(start_pos: Vector2, target_pos: Vector2, arc_height: float = 40.0, d
 		can_collect = true
 		_start_idle_animation()
 	)
-
+	
 func _start_idle_animation() -> void:
 	var bob_tween = create_tween().set_loops()
 	bob_tween.tween_property(sprite, "position:y", -4.0, 0.6).set_trans(Tween.TRANS_SINE)
 	bob_tween.tween_property(sprite, "position:y", 0.0, 0.6).set_trans(Tween.TRANS_SINE)
 
 func _on_body_entered(body: Node2D) -> void:
+	print("body entered: ", body.name, " can_collect=", can_collect)
 	if not can_collect:
 		return
 	if body.name == "Player" or body.is_in_group("player"):
@@ -45,16 +49,11 @@ func _on_body_entered(body: Node2D) -> void:
 		_collect(body)
 
 func _collect(player: Node2D) -> void:
-	# Add honey to world
-	var world = get_tree().current_scene
-	if world and "honey" in world:
-		world.honey += honey_value
-		if world.has_method("_refresh_market"):
-			world._refresh_market()
-	
-	# Cute pickup animation: fly into player and shrink
+	collected.emit(value)
+
 	var tween = create_tween().set_parallel(true)
 	tween.tween_property(self, "global_position", player.global_position, 0.18)\
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.18)
 	tween.chain().tween_callback(queue_free)
+	
