@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://40q4moelhxrx" path="res://crops/crop1.png" id="2_x88dn"]
 [ext_resource type="Texture2D" uid="uid://c5locxa502jpk" path="res://crops/crop2.png" id="3_jwbsy"]
 [ext_resource type="Texture2D" uid="uid://flsmn7hl5j8m" path="res://crops/crop3.png" id="4_x1f5t"]
-[ext_resource type="Texture2D" uid="uid://dv3m7eek3cs8u" path="res://crops/common/crop4_common.png" id="6_jwbsy"]
+[ext_resource type="Texture2D" uid="uid://ca8ncbkmbrlcs" path="res://crops/common/crop4_common.png" id="6_jwbsy"]
 
 [resource]
 script = ExtResource("1_pfo3n")
