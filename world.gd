@@ -189,11 +189,13 @@ func _on_child_added(node: Node) -> void:
 
 func _on_nectar_collected(value: int) -> void:
 	nectar_total += value
+	char_stats.update_nectar(nectar_total)
 	print("nectar +", value, " total nectar now ", nectar_total)
 	
 func _update_stats() ->void:
 	print("honey count now:", honey)
 	char_stats.update_honey(honey);
+	char_stats.update_nectar(nectar_total)
 
 func _update_inventory() -> void:
 	inventory.get_inventory(seeds)

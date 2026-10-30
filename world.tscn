@@ -194,6 +194,16 @@ offset_bottom = 136.0
 
 [node name="CharStats" parent="." unique_id=1970819950 instance=ExtResource("10_wse8f")]
 
+[node name="HoneyStats" parent="CharStats" index="0" unique_id=1060277852]
+offset_right = 81.0
+
+[node name="NectarStats" parent="CharStats" index="1" unique_id=467431254]
+offset_left = 57.0
+offset_top = 46.0
+offset_right = 97.0
+offset_bottom = 69.0
+horizontal_alignment = 1
+
 [node name="Inventory" type="CanvasLayer" parent="." unique_id=21765994]
 script = ExtResource("11_k3n1d")
 
