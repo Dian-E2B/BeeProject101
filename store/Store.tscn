@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://btsly4a5t82v5"]
 
 [ext_resource type="Script" uid="uid://bcqiu8hsf3fj" path="res://store/store.gd" id="1_xcoxu"]
-[ext_resource type="Texture2D" uid="uid://bqnkr67y2jhv3" path="res://store/tindera101.png" id="2_spomf"]
+[ext_resource type="Texture2D" uid="uid://bgceqicfklque" path="res://store/market/tindera101.png" id="2_spomf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nh2nn"]
 

@@ -20,6 +20,7 @@
 [ext_resource type="Resource" uid="uid://dgtekx4eqy8d1" path="res://seeds/legendary.tres" id="15_bo7i5"]
 [ext_resource type="Resource" uid="uid://cytaryhxm2emj" path="res://seeds/mythical.tres" id="16_4h6ng"]
 [ext_resource type="Texture2D" uid="uid://ckkvcsgctfxjb" path="res://seeds/Shop_UI.jpeg.png" id="17_o3ebs"]
+[ext_resource type="PackedScene" uid="uid://b70l6gry658ps" path="res://seed_list.tscn" id="21_bc84e"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pkg7o"]
 texture = ExtResource("1_fj7yv")
@@ -75,7 +76,7 @@ script = ExtResource("1_dwbse")
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(42, 110)
-tile_map_data = PackedByteArray("AAD///z/CAAAAAAAAAD///3/CAAAAAAAAAD+//3/CAAAAAAAAAD///7/CAAAAAAAAAD///v/CAAAAAAAAAAAAPz/CAAAAAAAAAD+//7/CAAAAAAAAAD+////CAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD///z/CAAAAAAAAAD///3/CAAAAAAAAAD+//3/CAAAAAAAAAD///7/CAAAAAAAAAD///v/CAAAAAAAAAAAAPz/CAAAAAAAAAD+//7/CAAAAAAAAAD+////CAAAAAAAAAAAAPv/CAAAAAAAAAAAAPr/CAAAAAAAAAAAAPn/CAAAAAAAAAABAPr/CAAAAAAAAAA=")
 tile_set = SubResource("TileSet_ioo17")
 collision_enabled = false
 
@@ -97,11 +98,10 @@ tile_set = SubResource("TileSet_ic0uy")
 
 [node name="Player" parent="." unique_id=1510979019 instance=ExtResource("2_fj7yv")]
 z_index = 1
-position = Vector2(157.00002, -268)
+position = Vector2(274.00003, -212)
 scale = Vector2(0.13, 0.13)
 
 [node name="PromptLabel" type="Label" parent="." unique_id=217243809]
-visible = false
 offset_right = 64.0
 offset_bottom = 23.0
 text = "Plant [E]"
@@ -110,6 +110,18 @@ text = "Plant [E]"
 position = Vector2(147.00002, -228.00002)
 rotation = -0.004366609
 scale = Vector2(7.4036717, 7.1392856)
+
+[node name="Prompt" parent="Store" index="0" unique_id=149998914]
+visible = true
+
+[node name="Sprite2D" parent="Store" index="1" unique_id=1947980985]
+texture_filter = 1
+position = Vector2(6.249115, -9.565063)
+scale = Vector2(0.068934165, 0.06994634)
+
+[node name="CollisionShape2D" parent="Store" index="2" unique_id=1455530458]
+visible = true
+position = Vector2(6.088032, -2.3536425)
 
 [node name="Market" type="CanvasLayer" parent="." unique_id=152536498]
 script = ExtResource("9_26xuy")
@@ -201,20 +213,23 @@ layout_mode = 2
 texture = ExtResource("12_2o6r5")
 expand_mode = 1
 
-[node name="SeedScroll" type="ScrollContainer" parent="Inventory/CenterContainer" unique_id=1769240760]
-custom_minimum_size = Vector2(307, 283)
-layout_mode = 2
+[node name="SeedScroll" type="ScrollContainer" parent="Inventory/CenterContainer/TextureRect" unique_id=1769240760]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.16506024
+anchor_top = 0.1805869
+anchor_right = 0.83975905
+anchor_bottom = 0.84424376
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
+accessibility_region = true
 horizontal_scroll_mode = 0
 
-[node name="SeedList" type="GridContainer" parent="Inventory/CenterContainer/SeedScroll" unique_id=1769240759]
+[node name="SeedList" parent="Inventory/CenterContainer/TextureRect/SeedScroll" unique_id=1184416695 instance=ExtResource("21_bc84e")]
 unique_name_in_owner = true
-clip_contents = true
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/h_separation = 100
-theme_override_constants/v_separation = 100
-accessibility_region = true
-columns = 3
 
+[editable path="Player"]
+[editable path="Store"]
 [editable path="CharStats"]

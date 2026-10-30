@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqnkr67y2jhv3"
-path="res://.godot/imported/tindera101.png-311fb91eb9d7f1e701166a5b5c14c723.ctex"
+uid="uid://dv3m7eek3cs8u"
+path="res://.godot/imported/crop4_common.png-36f2380d138450100bfdeb0e3b848254.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://store/tindera101.png"
-dest_files=["res://.godot/imported/tindera101.png-311fb91eb9d7f1e701166a5b5c14c723.ctex"]
+source_file="res://crops/common/crop4_common.png"
+dest_files=["res://.godot/imported/crop4_common.png-36f2380d138450100bfdeb0e3b848254.ctex"]
 
 [params]
 

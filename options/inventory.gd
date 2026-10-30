@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal seed_selected(seed_data: SeedData)
+
 @onready var seed_list: GridContainer = %SeedList
 const INVENTORY_SEED_SLOT = preload("res://inventory/SeedCard.tscn")
 func _ready() -> void:
@@ -36,11 +38,4 @@ func toggle_inventory() -> void:
 	visible = not visible
 	
 func _on_seed_card_clicked(seed_data) -> void:
-	print("Clicked seed: ", seed_data)
-	
-	# If your seed_data has a name or rarity property, you can print it like this:
-	# print("Clicked seed rarity: ", seed_data.rarity)
-	
-	# (Optional) If you want clicking it to select it for planting/selling:
-	# selected_seed = seed_data
-	# _refresh_market()
+	seed_selected.emit(seed_data)

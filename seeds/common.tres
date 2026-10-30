@@ -5,12 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://40q4moelhxrx" path="res://crops/crop1.png" id="2_x88dn"]
 [ext_resource type="Texture2D" uid="uid://c5locxa502jpk" path="res://crops/crop2.png" id="3_jwbsy"]
 [ext_resource type="Texture2D" uid="uid://flsmn7hl5j8m" path="res://crops/crop3.png" id="4_x1f5t"]
-[ext_resource type="Texture2D" uid="uid://dgd6aahhxo87g" path="res://crops/crop4.png" id="5_g3ias"]
+[ext_resource type="Texture2D" uid="uid://dv3m7eek3cs8u" path="res://crops/common/crop4_common.png" id="6_jwbsy"]
 
 [resource]
 script = ExtResource("1_pfo3n")
 icon = ExtResource("1_jwbsy")
 price = 12
 sell_value = 0
-stage_textures = Array[Texture2D]([ExtResource("2_x88dn"), ExtResource("3_jwbsy"), ExtResource("4_x1f5t"), ExtResource("5_g3ias")])
+stage_textures = Array[Texture2D]([ExtResource("2_x88dn"), ExtResource("3_jwbsy"), ExtResource("4_x1f5t"), ExtResource("6_jwbsy")])
 metadata/_custom_type_script = "uid://dnbaohyxgy56c"

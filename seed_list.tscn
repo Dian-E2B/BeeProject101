@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://b70l6gry658ps"]
+
+[node name="SeedList" type="GridContainer" unique_id=1184416695]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.0
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 100
+accessibility_region = true
+columns = 3
+metadata/_edit_use_anchors_ = true
