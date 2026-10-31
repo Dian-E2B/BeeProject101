@@ -9,6 +9,10 @@
 
 [resource]
 script = ExtResource("1_drwxb")
+rarity = "Epic"
 icon = ExtResource("1_rvn52")
 stage_textures = Array[Texture2D]([ExtResource("2_ierer"), ExtResource("3_rvn52"), ExtResource("4_dyel0"), ExtResource("5_3sf6q")])
+tick_seconds = 60.0
+nectar_per_tick = 2
+nectar_cap = 360
 metadata/_custom_type_script = "uid://dnbaohyxgy56c"

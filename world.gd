@@ -80,14 +80,13 @@ func _process(_delta: float) -> void:
 			_show_prompt(cell, "Need seeds")
 	elif planted[cell].is_grown():
 		var crop = planted[cell]
-		if crop.is_pollinating:
-			_show_prompt(cell, "Pollinating...")
-		elif not crop.has_pollinated:
-			_show_prompt(cell, "Pollinate [E]")
+		crop.update_nectar_from_clock()
+		if crop.stored_nectar > 0:
+			_show_prompt(cell, "Collect Nectar (%d/%d) [E]" % [crop.stored_nectar, crop.data.nectar_cap])
 			if Input.is_action_just_pressed("interact"):
-				pollinate(cell)
+				collect_from_crop(cell)
 		else:
-			prompt.visible = false
+			_show_prompt(cell, "Producing... (0/%d)" % [crop.data.nectar_cap])
 	else:
 		prompt.visible = false
 
@@ -123,21 +122,23 @@ func plant(cell: Vector2i, seed_data: SeedData) -> void:
 	crops.add_child(crop)
 	crop.global_position = plots.to_global(plots.map_to_local(cell))
 	crop.setup(seed_data)
+	crop.rotted.connect(func(): _on_crop_rotted(cell))
 	planted[cell] = crop
 
-func pollinate(cell: Vector2i) -> void:
-	var crop = planted[cell]
-	if crop.is_pollinating or crop.has_pollinated:
+func collect_from_crop(cell: Vector2i) -> void:
+	if not planted.has(cell):
 		return
-	crop.pollinated.connect(func():
-		crops_held += 1
-		crops_value += crop.data.sell_value
-		planted.erase(cell)
-		var t = create_tween()
-		t.tween_property(crop, "modulate:a", 0.0, 0.3)
-		t.tween_callback(crop.queue_free)
-	)
-	crop.start_pollination()
+	var crop = planted[cell]
+	crop.collect_nectar()
+
+func _on_crop_rotted(cell: Vector2i) -> void:
+	if not planted.has(cell):
+		return
+	var crop = planted[cell]
+	planted.erase(cell)
+	var t = create_tween()
+	t.tween_property(crop, "modulate:a", 0.0, 0.4)
+	t.tween_callback(crop.queue_free)
 
 			
 func _get_player_cell() -> Vector2i:

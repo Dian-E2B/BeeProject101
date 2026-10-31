@@ -13,4 +13,7 @@ rarity = "Uncommon"
 icon = ExtResource("1_wbkd4")
 price = 72
 stage_textures = Array[Texture2D]([ExtResource("2_roa6a"), ExtResource("3_wbkd4"), ExtResource("4_5sai5"), ExtResource("5_24wvn")])
+tick_seconds = 90.0
+nectar_per_tick = 1
+nectar_cap = 60
 metadata/_custom_type_script = "uid://dnbaohyxgy56c"
