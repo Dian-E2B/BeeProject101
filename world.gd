@@ -39,6 +39,26 @@ func _ready() -> void:
 	child_entered_tree.connect(_on_child_added)
 	# selected_seed = preload("res://seeds/common.tres")
 	# seeds[selected_seed] = 3
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Check for direct tap/click on plot
+	var is_click := false
+	var click_pos := Vector2.ZERO
+	
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		is_click = true
+		click_pos = event.position
+	elif event is InputEventScreenTouch and event.pressed:
+		is_click = true
+		click_pos = event.position
+
+	if is_click:
+		var world_pos := get_canvas_transform().affine_inverse() * click_pos
+		var cell := plots.local_to_map(plots.to_local(world_pos))
+		var is_plot := plots.get_cell_source_id(cell) != -1
+		if is_plot and not planted.has(cell):
+			_open_inventory_for_plot(cell)
+			get_viewport().set_input_as_handled()
 	
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("inventory"):
