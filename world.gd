@@ -43,6 +43,9 @@ func _ready() -> void:
 	# Connect NetworkManager data loaded
 	if Engine.has_singleton("NetworkManager") or has_node("/root/NetworkManager"):
 		NetworkManager.game_data_loaded.connect(_on_server_data_loaded)
+		# If data was already loaded before world._ready ran, apply it immediately!
+		if not NetworkManager.last_game_data.is_empty():
+			_on_server_data_loaded(NetworkManager.last_game_data)
 
 	store.interacted.connect(_open_market)
 	store.player_left.connect(_close_market_if_open)
