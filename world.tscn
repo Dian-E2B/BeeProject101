@@ -101,6 +101,10 @@ z_index = 1
 position = Vector2(274.00003, -212)
 scale = Vector2(0.13, 0.13)
 
+[node name="AnimatedSprite2D" parent="Player" index="0" unique_id=371826594]
+position = Vector2(-7.91626, -376.95728)
+scale = Vector2(1.1088511, 1.1088511)
+
 [node name="PromptLabel" type="Label" parent="." unique_id=217243809]
 offset_right = 64.0
 offset_bottom = 23.0

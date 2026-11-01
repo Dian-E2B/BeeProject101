@@ -25,10 +25,25 @@ var choosing_seed_for_plot := false
 var purchase_summary: Array[String] = []
 
 var planted := {}   # cell (Vector2i) -> Crop node
+
+const SEED_RESOURCES := {
+	"Common": preload("res://seeds/common.tres"),
+	"Uncommon": preload("res://seeds/uncommon.tres"),
+	"Rare": preload("res://seeds/rare.tres"),
+	"Epic": preload("res://seeds/epic.tres"),
+	"Legendary": preload("res://seeds/legendary.tres"),
+	"Mythical": preload("res://seeds/mythical.tres"),
+}
+
 func _ready() -> void:
 	_update_stats()
 	_update_inventory()
 	print("WORLD READY")
+	
+	# Connect NetworkManager data loaded
+	if Engine.has_singleton("NetworkManager") or has_node("/root/NetworkManager"):
+		NetworkManager.game_data_loaded.connect(_on_server_data_loaded)
+
 	store.interacted.connect(_open_market)
 	store.player_left.connect(_close_market_if_open)
 	market.sell_requested.connect(_sell_all)
@@ -37,8 +52,40 @@ func _ready() -> void:
 	$MoveUi.inventory_pressed.connect(_toggle_inventory)
 	inventory.seed_selected.connect(_on_inventory_seed_selected)
 	child_entered_tree.connect(_on_child_added)
-	# selected_seed = preload("res://seeds/common.tres")
-	# seeds[selected_seed] = 3
+
+func _on_server_data_loaded(data: Dictionary) -> void:
+	print("[World] Syncing state from server data: ", data)
+	if data.has("honey"):
+		honey = int(data["honey"])
+	if data.has("nectar"):
+		nectar_total = int(data["nectar"])
+	
+	if data.has("seeds") and data["seeds"] is Dictionary:
+		seeds.clear()
+		for seed_name in data["seeds"]:
+			var count = int(data["seeds"][seed_name])
+			# Match by case-insensitive rarity
+			for rarity_key in SEED_RESOURCES:
+				if rarity_key.to_lower() == str(seed_name).to_lower():
+					seeds[SEED_RESOURCES[rarity_key]] = count
+					break
+
+	_update_stats()
+	_update_inventory()
+	_refresh_market()
+
+func save_to_server() -> void:
+	var seed_counts := {}
+	for seed_res in seeds:
+		if seed_res is SeedData:
+			seed_counts[seed_res.rarity.to_lower()] = seeds[seed_res]
+	
+	var save_dict := {
+		"honey": honey,
+		"nectar": nectar_total,
+		"seeds": seed_counts
+	}
+	NetworkManager.save_game(save_dict)
 
 func _unhandled_input(event: InputEvent) -> void:
 	# Check for direct tap/click on plot
@@ -124,6 +171,7 @@ func plant(cell: Vector2i, seed_data: SeedData) -> void:
 	crop.setup(seed_data)
 	crop.rotted.connect(func(): _on_crop_rotted(cell))
 	planted[cell] = crop
+	save_to_server()
 
 func collect_from_crop(cell: Vector2i) -> void:
 	if not planted.has(cell):
@@ -169,6 +217,7 @@ func _sell_all() -> void:
 	print("sold +", crops_value)
 	_update_stats()
 	_refresh_market()
+	save_to_server()
 	
 func _buy_seed(seed_data: SeedData) -> void:
 	if honey < seed_data.price:
@@ -185,6 +234,7 @@ func _buy_seed(seed_data: SeedData) -> void:
 	_update_inventory()
 	_update_stats()
 	_refresh_market()
+	save_to_server()
 	
 
 func _refresh_market() -> void:
@@ -212,6 +262,7 @@ func _on_nectar_collected(value: int) -> void:
 	nectar_total += value
 	char_stats.update_nectar(nectar_total)
 	print("nectar +", value, " total nectar now ", nectar_total)
+	save_to_server()
 	
 func _update_stats() ->void:
 	print("honey count now:", honey)

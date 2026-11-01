@@ -3,11 +3,10 @@ extends CharacterBody2D
 var last_velocity_normalized: Vector2 = Vector2.ZERO
 const SPEED := 200.0
 
-@onready var armature_view: DragonBonesArmatureView = $DragonBonesArmatureView
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var is_walking := false
 
 func _ready() -> void:
-	print(armature_view.get_animations())
 	_stop_walk()
 
 func _physics_process(_delta: float) -> void:
@@ -18,12 +17,10 @@ func _physics_process(_delta: float) -> void:
 	var current_direction := velocity.normalized()
 
 	# Flip sprite left/right depending on direction
-	if direction.x != 0:
-		armature_view.flip_x = direction.x > 0
-	#if direction.x < 0:
-		#armature_view.scale.x = -abs(armature_view.scale.x)
+	if direction.x < 0:
+		sprite.flip_h = false
 	elif direction.x > 0:
-		armature_view.scale.x = abs(armature_view.scale.x)
+		sprite.flip_h = true
 
 	# Play walk animation when moving, stop when idle
 	if velocity.length() > 5.0:
@@ -40,9 +37,9 @@ func _physics_process(_delta: float) -> void:
 
 func _start_walk() -> void:
 	is_walking = true
-	armature_view.play("walk")
-
+	sprite.play("walk")
 
 func _stop_walk() -> void:
 	is_walking = false
-	armature_view.stop_all_animations(false)
+	sprite.stop()
+	sprite.frame = 0

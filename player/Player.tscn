@@ -1,7 +1,66 @@
 [gd_scene format=3 uid="uid://cmfaaylcg7mmf"]
 
 [ext_resource type="Script" uid="uid://lwoi8dv273o" path="res://player/player.gd" id="1_xhfnw"]
-[ext_resource type="DragonBonesFactory" uid="uid://dmirt67g8anwf" path="res://player/beeplayer/Bee101_ske.dbfactory" id="2_3c3w1"]
+[ext_resource type="Texture2D" uid="uid://bsyn2grrudqqg" path="res://player/beewalking/Armature_walk_00.png" id="2_frame00"]
+[ext_resource type="Texture2D" uid="uid://dof0kb1ng00tr" path="res://player/beewalking/Armature_walk_01.png" id="3_frame01"]
+[ext_resource type="Texture2D" uid="uid://bxbvgds8htad7" path="res://player/beewalking/Armature_walk_02.png" id="4_frame02"]
+[ext_resource type="Texture2D" uid="uid://ctbbont1kjq7c" path="res://player/beewalking/Armature_walk_03.png" id="5_frame03"]
+[ext_resource type="Texture2D" uid="uid://uucxbcwhch4r" path="res://player/beewalking/Armature_walk_04.png" id="6_frame04"]
+[ext_resource type="Texture2D" uid="uid://dvoggnjxwtk3h" path="res://player/beewalking/Armature_walk_05.png" id="7_frame05"]
+[ext_resource type="Texture2D" uid="uid://sqgyruhi6lck" path="res://player/beewalking/Armature_walk_06.png" id="8_frame06"]
+[ext_resource type="Texture2D" uid="uid://c8naig6m8fmnq" path="res://player/beewalking/Armature_walk_07.png" id="9_frame07"]
+[ext_resource type="Texture2D" uid="uid://k7oamdnr1ofi" path="res://player/beewalking/Armature_walk_08.png" id="10_frame08"]
+[ext_resource type="Texture2D" uid="uid://bheb2wn7e02s7" path="res://player/beewalking/Armature_walk_09.png" id="11_frame09"]
+[ext_resource type="Texture2D" uid="uid://b4rrk6y7wpwiv" path="res://player/beewalking/Armature_walk_10.png" id="12_frame10"]
+[ext_resource type="Texture2D" uid="uid://dcrojheg0ewy4" path="res://player/beewalking/Armature_walk_11.png" id="13_frame11"]
+[ext_resource type="Texture2D" uid="uid://cmwdjay02tmkl" path="res://player/beewalking/Armature_walk_12.png" id="14_frame12"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bee"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_frame00")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_frame01")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_frame02")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_frame03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_frame04")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_frame05")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_frame06")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_frame07")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_frame08")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_frame09")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_frame10")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_frame11")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_frame12")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 12.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_muqmd"]
 
@@ -9,14 +68,11 @@
 motion_mode = 1
 script = ExtResource("1_xhfnw")
 
-[node name="DragonBonesArmatureView" type="DragonBonesArmatureView" parent="." unique_id=371826594]
-factory = ExtResource("2_3c3w1")
-armature_settings = {
-&"current_animation": "[none]",
-"sub_armatures": {}
-}
-texture_filter = 1
-position = Vector2(0, -263)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=371826594]
+sprite_frames = SubResource("SpriteFrames_bee")
+animation = &"walk"
+position = Vector2(0, -66)
+scale = Vector2(0.5, 0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=957325445]
 position = Vector2(0, -66)

@@ -8,10 +8,6 @@
 
 config_version=5
 
-[Godot_DragonBones]
-
-auto_generate_dbfactory=true
-
 [application]
 
 config/name="sample102"
@@ -20,6 +16,10 @@ run/print_header=false
 config/features=PackedStringArray("4.7", "Mobile")
 run/low_processor_mode=true
 config/icon="res://icon.svg"
+
+[autoload]
+
+NetworkManager="*res://network_manager.gd"
 
 [display]
 
@@ -89,7 +89,7 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-renderer/rendering_method="mobile"
+renderer/rendering_method="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true
