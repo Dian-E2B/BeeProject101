@@ -18,6 +18,7 @@ var is_authenticated: bool = false
 var http_auth: HTTPRequest
 var http_save: HTTPRequest
 var http_load: HTTPRequest
+var auth_attempts := 0
 
 func _ready() -> void:
 	# DEBUG: confirm this build's NetworkManager is running
@@ -106,6 +107,12 @@ func _on_auth_completed(_result: int, response_code: int, _headers: PackedString
 				# Fallback: explicit load request (passes token via query param)
 				load_game()
 			return
+	print("[NetworkManager] Auth failed (HTTP %d)." % response_code)
+	auth_attempts += 1
+	if auth_attempts < 5:
+		await get_tree().create_timer(2.0 * auth_attempts).timeout
+		authenticate()		
+		
 	else:
 		# Alert on mobile screen so we can see the exact error code and message!
 		JavaScriptBridge.eval("alert('Auth Code: %d\\nResponse: %s');" % [response_code, response_text.replace("'", "\\'")])
@@ -139,7 +146,7 @@ func save_game(save_dict: Dictionary) -> void:
 
 	if save_dict.has("plots"):
 		payload["plots"] = save_dict["plots"]
-		
+
 	var body = JSON.stringify(payload)
 	print("[NetworkManager] Saving to server: ", api_base_url + "/api/game/save", " payload: ", body)
 	var err = http_save.request(api_base_url + "/api/game/save", headers, HTTPClient.METHOD_POST, body)
@@ -182,4 +189,3 @@ func _on_load_completed(_result: int, response_code: int, _headers: PackedString
 	else:
 		JavaScriptBridge.eval("alert('Load Code: %d\\nResponse: %s');" % [response_code, response_text.replace("'", "\\'")])
 	print("[NetworkManager] Failed to load data from server (HTTP %d)." % response_code)
-
