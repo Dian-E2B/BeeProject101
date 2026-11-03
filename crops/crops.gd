@@ -25,14 +25,28 @@ func setup(seed_data: SeedData, p_planted_time: int = 0, p_last_collect_time: in
 	data = seed_data
 	var now := int(Time.get_unix_time_from_system())
 	planted_time = p_planted_time if p_planted_time > 0 else now
-	last_collect_time = p_last_collect_time if p_last_collect_time > 0 else planted_time
 	watched_ad = p_watched_ad
-	
+
 	if p_rot_time > 0:
 		rot_time = p_rot_time
 	else:
 		rot_time = calculate_rot_time(planted_time, watched_ad)
-		
+
+	# Catch growth up from the clock (matters when restoring a save)
+	var max_stage := maxi(0, data.stage_textures.size() - 1)
+	var sps := float(data.seconds_per_stage)
+	var elapsed := float(maxi(0, now - planted_time))
+	if sps > 0.0:
+		stage = mini(int(elapsed / sps), max_stage)
+		timer = fmod(elapsed, sps) if stage < max_stage else 0.0
+	else:
+		stage = max_stage
+
+	# Nectar only starts once the crop is fully grown
+	var grown_at := planted_time + int(ceil(max_stage * sps))
+	var base_collect := p_last_collect_time if p_last_collect_time > 0 else planted_time
+	last_collect_time = maxi(base_collect, grown_at)
+
 	_update_sprite()
 	update_nectar_from_clock()
 

@@ -26,6 +26,8 @@ var purchase_summary: Array[String] = []
 
 var planted := {}   # cell (Vector2i) -> Crop node
 
+
+
 const SEED_RESOURCES := {
 	"Common": preload("res://seeds/common.tres"),
 	"Uncommon": preload("res://seeds/uncommon.tres"),
@@ -72,6 +74,8 @@ func _on_server_data_loaded(data: Dictionary) -> void:
 				if rarity_key.to_lower() == str(seed_name).to_lower():
 					seeds[SEED_RESOURCES[rarity_key]] = count
 					break
+	if data.has("plots") and data["plots"] is Array:
+		_restore_plots(data["plots"])
 
 	_update_stats()
 	_update_inventory()
@@ -86,8 +90,10 @@ func save_to_server() -> void:
 	var save_dict := {
 		"honey": honey,
 		"nectar": nectar_total,
-		"seeds": seed_counts
+		"seeds": seed_counts,
+		"plots": _build_plots_data()
 	}
+
 	NetworkManager.save_game(save_dict)
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -168,12 +174,7 @@ func _on_inventory_seed_selected(seed_data: SeedData) -> void:
 func plant(cell: Vector2i, seed_data: SeedData) -> void:
 	seeds[seed_data] -= 1
 	_update_inventory()
-	var crop: Node2D = CROP_SCENE.instantiate()
-	crops.add_child(crop)
-	crop.global_position = plots.to_global(plots.map_to_local(cell))
-	crop.setup(seed_data)
-	crop.rotted.connect(func(): _on_crop_rotted(cell))
-	planted[cell] = crop
+	_spawn_crop(cell, seed_data)
 	save_to_server()
 
 func collect_from_crop(cell: Vector2i) -> void:
@@ -274,4 +275,65 @@ func _update_stats() ->void:
 
 func _update_inventory() -> void:
 	inventory.get_inventory(seeds)
+
+func _build_plots_data() -> Array:
+	var out := []
+	for cell in planted:
+		var crop = planted[cell]
+		if not is_instance_valid(crop):
+			continue
+		out.append({
+			"x": cell.x,
+			"y": cell.y,
+			"rarity": crop.data.rarity.to_lower(),
+			"planted_time": crop.planted_time,
+			"last_collect_time": crop.last_collect_time,
+			"rot_time": crop.rot_time,
+			"watched_ad": crop.watched_ad,
+			"stored_nectar": crop.stored_nectar,
+		})
+	return out
+
+func _seed_by_rarity(rarity: String) -> SeedData:
+	for key in SEED_RESOURCES:
+		if key.to_lower() == rarity.to_lower():
+			return SEED_RESOURCES[key]
+	return null
+
+func _spawn_crop(cell: Vector2i, seed_data: SeedData, saved: Dictionary = {}) -> void:
+	var crop: Node2D = CROP_SCENE.instantiate()
+	crops.add_child(crop)
+	crop.global_position = plots.to_global(plots.map_to_local(cell))
+	crop.rotted.connect(func(): _on_crop_rotted(cell))
+	# Set before setup(): setup adds nectar earned since last_collect_time on top
+	crop.stored_nectar = clampi(int(saved.get("stored_nectar", 0)), 0, seed_data.nectar_cap)
+	crop.setup(
+		seed_data,
+		int(saved.get("planted_time", 0)),
+		int(saved.get("last_collect_time", 0)),
+		int(saved.get("rot_time", 0)),
+		bool(saved.get("watched_ad", false))
+	)
+	planted[cell] = crop
+
+func _restore_plots(list: Array) -> void:
+	for cell in planted:
+		if is_instance_valid(planted[cell]):
+			planted[cell].queue_free()
+	planted.clear()
+
+	var now := int(Time.get_unix_time_from_system())
+	for entry in list:
+		if not entry is Dictionary:
+			continue
+		var seed_data: SeedData = _seed_by_rarity(str(entry.get("rarity", "")))
+		if seed_data == null:
+			continue
+		var cell := Vector2i(int(entry.get("x", 0)), int(entry.get("y", 0)))
+		if plots.get_cell_source_id(cell) == -1 or planted.has(cell):
+			continue
+		var rot_t := int(entry.get("rot_time", 0))
+		if rot_t > 0 and now >= rot_t:
+			continue   # rotted while the player was away, skip it
+		_spawn_crop(cell, seed_data, entry)
 	

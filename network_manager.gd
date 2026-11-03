@@ -128,12 +128,18 @@ func save_game(save_dict: Dictionary) -> void:
 		"Accept: application/json",
 		"Authorization: Bearer " + auth_token
 	]
+	
+
 	var payload = {
 		"honey": save_dict.get("honey", 0),
 		"nectar": save_dict.get("nectar", 0),
 		"seeds": save_dict.get("seeds", {}),
 		"token": auth_token # fallback so token is never lost
 	}
+
+	if save_dict.has("plots"):
+		payload["plots"] = save_dict["plots"]
+		
 	var body = JSON.stringify(payload)
 	print("[NetworkManager] Saving to server: ", api_base_url + "/api/game/save", " payload: ", body)
 	var err = http_save.request(api_base_url + "/api/game/save", headers, HTTPClient.METHOD_POST, body)
