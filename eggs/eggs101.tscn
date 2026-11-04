@@ -1,17 +1,83 @@
 [gd_scene format=3 uid="uid://orncudhjyrqe"]
 
+[ext_resource type="Script" uid="uid://ccw7sg225i66t" path="res://eggs/eggshop101.gd" id="1_2h7hf"]
 [ext_resource type="Texture2D" uid="uid://cva81cpaxwk3i" path="res://options/inventory_ui.png" id="1_3dxas"]
-[ext_resource type="Texture2D" uid="uid://cgktvb00ppiiu" path="res://eggs/common_eggv1.png" id="2_1qy2e"]
+[ext_resource type="Texture2D" uid="uid://djyk8y5locjbi" path="res://eggs/common_egg_anim/Armature_idle_00.png" id="2_uxo0y"]
+[ext_resource type="Texture2D" uid="uid://ckje7kd7b3mw7" path="res://eggs/common_egg_anim/Armature_idle_01.png" id="3_2h7hf"]
+[ext_resource type="Texture2D" uid="uid://cy0n512qremje" path="res://Uis/buttons/button.png" id="3_p08vu"]
+[ext_resource type="Texture2D" uid="uid://bi2bx440ao68t" path="res://eggs/common_egg_anim/Armature_idle_02.png" id="4_p08vu"]
+[ext_resource type="Texture2D" uid="uid://ceuv1gjl6vo2s" path="res://eggs/common_egg_anim/Armature_idle_03.png" id="5_5nsr7"]
+[ext_resource type="Texture2D" uid="uid://daxoe8t1y2et2" path="res://eggs/common_egg_anim/Armature_idle_04.png" id="6_cg2ul"]
+[ext_resource type="Texture2D" uid="uid://7l5feik8d2d5" path="res://eggs/common_egg_anim/Armature_idle_05.png" id="7_jygqc"]
+[ext_resource type="Texture2D" uid="uid://bxa5rnrchiwve" path="res://eggs/common_egg_anim/Armature_idle_06.png" id="8_l81ko"]
+[ext_resource type="Texture2D" uid="uid://6eecfdwgk7gt" path="res://eggs/common_egg_anim/Armature_idle_07.png" id="9_vcjeh"]
+[ext_resource type="Texture2D" uid="uid://cq8crxalxbgqa" path="res://eggs/common_egg_anim/Armature_idle_08.png" id="10_3qrym"]
+[ext_resource type="Texture2D" uid="uid://dwdiof7yxdhwn" path="res://eggs/common_egg_anim/Armature_idle_09.png" id="11_y28mt"]
+[ext_resource type="Texture2D" uid="uid://b3cdyuak2jur5" path="res://eggs/common_egg_anim/Armature_idle_10.png" id="12_ma2pl"]
+[ext_resource type="Texture2D" uid="uid://dqw6g61agj322" path="res://eggs/common_egg_anim/Armature_idle_11.png" id="13_hy72p"]
+[ext_resource type="Texture2D" uid="uid://dorarcm3quu64" path="res://eggs/common_egg_anim/Armature_idle_12.png" id="14_j3rtv"]
+[ext_resource type="Texture2D" uid="uid://dw2qgr3e8cuge" path="res://eggs/common_egg_anim/Armature_idle_13.png" id="15_1ohji"]
+[ext_resource type="Texture2D" uid="uid://dbmaf317tabdx" path="res://eggs/common_egg_anim/Armature_idle_14.png" id="16_24mvd"]
+[ext_resource type="Texture2D" uid="uid://ca0xelpw7uhl4" path="res://eggs/common_egg_anim/Armature_idle_15.png" id="17_bn2x7"]
+[ext_resource type="Texture2D" uid="uid://mgdnfike82h4" path="res://eggs/common_egg_anim/Armature_idle_16.png" id="18_jq6vg"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nh2nn"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_1qy2e")
+"texture": ExtResource("2_uxo0y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_2h7hf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_p08vu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_5nsr7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_cg2ul")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_jygqc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_l81ko")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_vcjeh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_3qrym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_y28mt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_ma2pl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_hy72p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_j3rtv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_1ohji")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_24mvd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_bn2x7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_jq6vg")
 }],
 "loop": 1,
 "name": &"eggidle",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [node name="Eggs101" type="Control" unique_id=1131776270]
@@ -23,6 +89,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Eggshop" type="CanvasLayer" parent="." unique_id=698684782]
+script = ExtResource("1_2h7hf")
 
 [node name="Control" type="Control" parent="Eggshop" unique_id=1277556969]
 propagate_maximum_size = true
@@ -56,12 +123,22 @@ offset_top = 192.0
 offset_right = 357.0
 offset_bottom = 448.0
 
-[node name="Button" type="Button" parent="Eggshop/Control" unique_id=1993346501]
+[node name="TextureRect2" type="TextureRect" parent="Eggshop/Control" unique_id=275628517]
 layout_mode = 0
-offset_left = 124.0
-offset_top = 419.0
-offset_right = 273.0
-offset_bottom = 461.0
+offset_left = 84.0
+offset_top = 315.0
+offset_right = 320.0
+offset_bottom = 536.0
+texture = ExtResource("3_p08vu")
+expand_mode = 1
+
+[node name="Button" type="Button" parent="Eggshop/Control/TextureRect2" unique_id=1993346501]
+texture_filter = 1
+layout_mode = 0
+offset_left = 68.0
+offset_top = 74.0
+offset_right = 164.0
+offset_bottom = 136.0
 text = "Purchase"
 flat = true
 autowrap_trim_flags = 192
@@ -69,7 +146,11 @@ icon_alignment = 1
 expand_icon = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Eggshop" unique_id=1902891410]
+unique_name_in_owner = true
+texture_filter = 1
 position = Vector2(207, 394)
 scale = Vector2(0.4506836, 0.4506836)
 sprite_frames = SubResource("SpriteFrames_nh2nn")
 animation = &"eggidle"
+
+[connection signal="pressed" from="Eggshop/Control/TextureRect2/Button" to="Eggshop" method="_common_egg_buy_pressed"]
