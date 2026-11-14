@@ -48,6 +48,16 @@ func _ready() -> void:
 		# If data was already loaded before world._ready ran, apply it immediately!
 		if not NetworkManager.last_game_data.is_empty():
 			_on_server_data_loaded(NetworkManager.last_game_data)
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("""
+			if (window.Telegram && Telegram.WebApp) {
+				Telegram.WebApp.ready();
+				Telegram.WebApp.expand();
+				if (Telegram.WebApp.disableVerticalSwipes) {
+					Telegram.WebApp.disableVerticalSwipes();
+				}
+			}
+		""")
 
 	store.interacted.connect(_open_market)
 	store.player_left.connect(_close_market_if_open)
@@ -134,10 +144,18 @@ func _process(_delta: float) -> void:
 				_open_inventory_for_plot(cell)
 		else:
 			_show_prompt(cell, "Need seeds")
+	elif planted[cell].is_rotten:
+		_show_prompt(cell, "Remove rotten crop [E]")
+		if Input.is_action_just_pressed("interact"):
+			_remove_rotten_crop(cell)
 	elif planted[cell].is_grown():
 		var crop = planted[cell]
 		crop.update_nectar_from_clock()
-		if crop.stored_nectar > 0:
+		if crop.is_rotten:
+			_show_prompt(cell, "Remove rotten crop [E]")
+			if Input.is_action_just_pressed("interact"):
+				_remove_rotten_crop(cell)
+		elif crop.stored_nectar > 0:
 			_show_prompt(cell, "Collect Nectar (%d/%d) [E]" % [crop.stored_nectar, crop.data.nectar_cap])
 			if Input.is_action_just_pressed("interact"):
 				collect_from_crop(cell)
@@ -184,13 +202,16 @@ func collect_from_crop(cell: Vector2i) -> void:
 	crop.collect_nectar()
 
 func _on_crop_rotted(cell: Vector2i) -> void:
-	if not planted.has(cell):
+	if planted.has(cell):
+		save_to_server()
+
+func _remove_rotten_crop(cell: Vector2i) -> void:
+	if not planted.has(cell) or not planted[cell].is_rotten:
 		return
 	var crop = planted[cell]
 	planted.erase(cell)
-	var t = create_tween()
-	t.tween_property(crop, "modulate:a", 0.0, 0.4)
-	t.tween_callback(crop.queue_free)
+	crop.queue_free()
+	save_to_server()
 
 			
 func _get_player_cell() -> Vector2i:
@@ -291,6 +312,7 @@ func _build_plots_data() -> Array:
 			"rot_time": crop.rot_time,
 			"watched_ad": crop.watched_ad,
 			"stored_nectar": crop.stored_nectar,
+			"is_rotten": crop.is_rotten,
 		})
 	return out
 
@@ -312,7 +334,8 @@ func _spawn_crop(cell: Vector2i, seed_data: SeedData, saved: Dictionary = {}) ->
 		int(saved.get("planted_time", 0)),
 		int(saved.get("last_collect_time", 0)),
 		int(saved.get("rot_time", 0)),
-		bool(saved.get("watched_ad", false))
+		bool(saved.get("watched_ad", false)),
+		bool(saved.get("is_rotten", false))
 	)
 	planted[cell] = crop
 
@@ -322,7 +345,6 @@ func _restore_plots(list: Array) -> void:
 			planted[cell].queue_free()
 	planted.clear()
 
-	var now := int(Time.get_unix_time_from_system())
 	for entry in list:
 		if not entry is Dictionary:
 			continue
@@ -332,8 +354,5 @@ func _restore_plots(list: Array) -> void:
 		var cell := Vector2i(int(entry.get("x", 0)), int(entry.get("y", 0)))
 		if plots.get_cell_source_id(cell) == -1 or planted.has(cell):
 			continue
-		var rot_t := int(entry.get("rot_time", 0))
-		if rot_t > 0 and now >= rot_t:
-			continue   # rotted while the player was away, skip it
 		_spawn_crop(cell, seed_data, entry)
 	

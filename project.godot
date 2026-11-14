@@ -26,6 +26,7 @@ NetworkManager="*res://network_manager.gd"
 window/size/viewport_width=414
 window/size/viewport_height=896
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 window/handheld/orientation=1
 
 [filesystem]

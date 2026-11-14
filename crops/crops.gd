@@ -16,12 +16,14 @@ var watched_ad: bool = false
 
 var stored_nectar: int = 0
 var tick_accumulator := 0.0
+var is_rotten := false
 
 var is_collecting := false
 
 @onready var sprite: Sprite2D = $Sprite2D
+@onready var rotten_sprite: Sprite2D = $RottenSprite
 
-func setup(seed_data: SeedData, p_planted_time: int = 0, p_last_collect_time: int = 0, p_rot_time: int = 0, p_watched_ad: bool = false) -> void:
+func setup(seed_data: SeedData, p_planted_time: int = 0, p_last_collect_time: int = 0, p_rot_time: int = 0, p_watched_ad: bool = false, p_is_rotten: bool = false) -> void:
 	data = seed_data
 	var now := int(Time.get_unix_time_from_system())
 	planted_time = p_planted_time if p_planted_time > 0 else now
@@ -31,6 +33,7 @@ func setup(seed_data: SeedData, p_planted_time: int = 0, p_last_collect_time: in
 		rot_time = p_rot_time
 	else:
 		rot_time = calculate_rot_time(planted_time, watched_ad)
+	is_rotten = p_is_rotten or now >= rot_time
 
 	# Catch growth up from the clock (matters when restoring a save)
 	var max_stage := maxi(0, data.stage_textures.size() - 1)
@@ -48,7 +51,8 @@ func setup(seed_data: SeedData, p_planted_time: int = 0, p_last_collect_time: in
 	last_collect_time = maxi(base_collect, grown_at)
 
 	_update_sprite()
-	update_nectar_from_clock()
+	if not is_rotten:
+		update_nectar_from_clock()
 
 # Rot Calculation:
 # Next reset after planting: 01:00 UTC (9:00 AM Singapore, UTC+8).
@@ -65,11 +69,13 @@ static func calculate_rot_time(p_planted_time: int, p_watched_ad: bool) -> int:
 func _process(delta: float) -> void:
 	if data == null:
 		return
+	if is_rotten:
+		return
 
 	# Check for rot
 	var now := int(Time.get_unix_time_from_system())
 	if rot_time > 0 and now >= rot_time:
-		rotted.emit()
+		_become_rotten()
 		return
 		
 	# Growth progression
@@ -92,11 +98,11 @@ func _process(delta: float) -> void:
 				last_collect_time = now
 
 func update_nectar_from_clock() -> void:
-	if data == null or not is_grown():
+	if data == null or is_rotten or not is_grown():
 		return
 	var now := int(Time.get_unix_time_from_system())
 	if rot_time > 0 and now >= rot_time:
-		rotted.emit()
+		_become_rotten()
 		return
 
 	var tick_sec: int = int(data.tick_seconds)
@@ -111,7 +117,7 @@ func update_nectar_from_clock() -> void:
 		last_collect_time += whole_ticks * tick_sec
 
 func collect_nectar() -> int:
-	if stored_nectar <= 0 or is_collecting:
+	if is_rotten or stored_nectar <= 0 or is_collecting:
 		return 0
 	
 	is_collecting = true
@@ -156,6 +162,19 @@ func is_grown() -> bool:
 	return data != null and stage >= data.stage_textures.size() - 1
 
 func _update_sprite() -> void:
+	if is_rotten and rotten_sprite.texture != null:
+		sprite.visible = false
+		rotten_sprite.visible = true
+		return
+	sprite.visible = true
+	rotten_sprite.visible = false
 	if data.stage_textures.is_empty():
 		return
-	sprite.texture = data.stage_textures[stage]
+	sprite.texture = data.stage_textures[clampi(stage, 0, data.stage_textures.size() - 1)]
+
+func _become_rotten() -> void:
+	if is_rotten:
+		return
+	is_rotten = true
+	_update_sprite()
+	rotted.emit()

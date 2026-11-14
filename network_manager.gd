@@ -141,6 +141,7 @@ func save_game(save_dict: Dictionary) -> void:
 		"honey": save_dict.get("honey", 0),
 		"nectar": save_dict.get("nectar", 0),
 		"seeds": save_dict.get("seeds", {}),
+		"plots": save_dict.get("plots", []),
 		"token": auth_token # fallback so token is never lost
 	}
 

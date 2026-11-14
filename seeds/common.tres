@@ -13,7 +13,4 @@ icon = ExtResource("1_jwbsy")
 price = 12
 sell_value = 0
 stage_textures = Array[Texture2D]([ExtResource("2_x88dn"), ExtResource("3_jwbsy"), ExtResource("4_x1f5t"), ExtResource("6_jwbsy")])
-tick_seconds = 120.0
-nectar_per_tick = 1
-nectar_cap = 30
 metadata/_custom_type_script = "uid://dnbaohyxgy56c"
