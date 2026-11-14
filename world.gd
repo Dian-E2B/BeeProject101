@@ -326,6 +326,7 @@ func _spawn_crop(cell: Vector2i, seed_data: SeedData, saved: Dictionary = {}) ->
 	var crop: Node2D = CROP_SCENE.instantiate()
 	crops.add_child(crop)
 	crop.global_position = plots.to_global(plots.map_to_local(cell))
+	crop.reset_physics_interpolation()
 	crop.rotted.connect(func(): _on_crop_rotted(cell))
 	# Set before setup(): setup adds nectar earned since last_collect_time on top
 	crop.stored_nectar = clampi(int(saved.get("stored_nectar", 0)), 0, seed_data.nectar_cap)

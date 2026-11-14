@@ -26,8 +26,11 @@ func _input(event):
 		_update(event.position)
 
 func _update(pos: Vector2):
-	var center := global_position + size / 2
-	output = ((pos - center) / radius).limit_length(1.0)
+	var center := get_global_rect().get_center()
+	var local_pos := get_global_transform().affine_inverse() * pos
+
+	output = ((local_pos - size / 2) / radius).limit_length(1.0)
+
 	_apply()
 	queue_redraw()
 
