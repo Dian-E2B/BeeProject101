@@ -25,6 +25,11 @@ var choosing_seed_for_plot := false
 var purchase_summary: Array[String] = []
 
 var planted := {}   # cell (Vector2i) -> Crop node
+var tier_level := 2
+var plot_cells: Array[Vector2i] = []
+var plot_tiles: Dictionary = {}
+var plot_order: Dictionary = {}
+var unlocked_plot_cells: Dictionary = {}
 
 
 
@@ -38,6 +43,8 @@ const SEED_RESOURCES := {
 }
 
 func _ready() -> void:
+	_cache_plot_cells()
+	_apply_plot_tier()
 	_update_stats()
 	_update_inventory()
 	print("WORLD READY")
@@ -65,11 +72,23 @@ func _ready() -> void:
 	market.buy_requested.connect(_buy_seed)
 	market.closed.connect(func(): player.set_physics_process(true))
 	$MoveUi.inventory_pressed.connect(_toggle_inventory)
+	$MoveUi.dev_reset_requested.connect(_reset_dev_data)
 	inventory.seed_selected.connect(_on_inventory_seed_selected)
 	child_entered_tree.connect(_on_child_added)
 
 func _on_server_data_loaded(data: Dictionary) -> void:
 	print("[World] Syncing state from server data: ", data)
+	var loaded_tier: Variant = data.get("tier_level", null)
+	if loaded_tier == null:
+		for profile_key in ["user", "user_stats", "stats"]:
+			var profile: Variant = data.get(profile_key, {})
+			if profile is Dictionary and profile.has("tier_level"):
+				loaded_tier = profile["tier_level"]
+				break
+	if loaded_tier != null:
+		tier_level = int(loaded_tier)
+		_apply_plot_tier()
+
 	if data.has("honey"):
 		honey = int(data["honey"])
 	if data.has("nectar"):
@@ -106,7 +125,26 @@ func save_to_server() -> void:
 
 	NetworkManager.save_game(save_dict)
 
+func _reset_dev_data() -> void:
+	if not NetworkManager.is_dev_session:
+		return
+	nectar_total = 0
+	for crop in planted.values():
+		if is_instance_valid(crop):
+			crop.queue_free()
+	planted.clear()
+	for child in get_children():
+		if child.has_signal("collected"):
+			child.queue_free()
+	_update_stats()
+	_update_inventory()
+	_refresh_market()
+	save_to_server()
+
 func _unhandled_input(event: InputEvent) -> void:
+	if inventory.visible:
+		return
+
 	# Check for direct tap/click on plot
 	var is_click := false
 	var click_pos := Vector2.ZERO
@@ -129,6 +167,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("inventory"):
 		_toggle_inventory()
+	if inventory.visible:
+		prompt.visible = false
+		return
 
 	var cell := _get_player_cell()
 	var on_plot := plots.get_cell_source_id(cell) != -1
@@ -172,6 +213,8 @@ func _toggle_inventory() -> void:
 		choosing_seed_for_plot = false
 
 func _open_inventory_for_plot(cell: Vector2i) -> void:
+	if not _is_plot_unlocked(cell):
+		return
 	pending_plant_cell = cell
 	choosing_seed_for_plot = true
 	inventory.visible = true
@@ -190,6 +233,8 @@ func _on_inventory_seed_selected(seed_data: SeedData) -> void:
 		_update_inventory()
 
 func plant(cell: Vector2i, seed_data: SeedData) -> void:
+	if not _is_plot_unlocked(cell):
+		return
 	seeds[seed_data] -= 1
 	_update_inventory()
 	_spawn_crop(cell, seed_data)
@@ -297,6 +342,48 @@ func _update_stats() ->void:
 func _update_inventory() -> void:
 	inventory.get_inventory(seeds)
 
+func _cache_plot_cells() -> void:
+	plot_cells = plots.get_used_cells()
+	plot_cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+		if a.y != b.y:
+			return a.y < b.y
+		return a.x < b.x
+	)
+	plot_tiles.clear()
+	plot_order.clear()
+	for index in range(plot_cells.size()):
+		var cell := plot_cells[index]
+		plot_order[cell] = index
+		plot_tiles[cell] = {
+			"source_id": plots.get_cell_source_id(cell),
+			"atlas_coords": plots.get_cell_atlas_coords(cell),
+			"alternative_tile": plots.get_cell_alternative_tile(cell),
+		}
+
+func _apply_plot_tier() -> void:
+	tier_level = clampi(tier_level, 0, plot_cells.size())
+	unlocked_plot_cells.clear()
+	for index in range(plot_cells.size()):
+		var cell := plot_cells[index]
+		if index < tier_level:
+			var tile: Dictionary = plot_tiles[cell]
+			plots.set_cell(
+				cell,
+				int(tile["source_id"]),
+				tile["atlas_coords"],
+				int(tile["alternative_tile"])
+			)
+			unlocked_plot_cells[cell] = true
+		else:
+			plots.erase_cell(cell)
+
+	for cell in planted:
+		if is_instance_valid(planted[cell]):
+			planted[cell].visible = unlocked_plot_cells.has(cell)
+
+func _is_plot_unlocked(cell: Vector2i) -> bool:
+	return unlocked_plot_cells.has(cell)
+
 func _build_plots_data() -> Array:
 	var out := []
 	for cell in planted:
@@ -338,6 +425,7 @@ func _spawn_crop(cell: Vector2i, seed_data: SeedData, saved: Dictionary = {}) ->
 		bool(saved.get("watched_ad", false)),
 		bool(saved.get("is_rotten", false))
 	)
+	crop.visible = _is_plot_unlocked(cell)
 	planted[cell] = crop
 
 func _restore_plots(list: Array) -> void:
@@ -353,7 +441,7 @@ func _restore_plots(list: Array) -> void:
 		if seed_data == null:
 			continue
 		var cell := Vector2i(int(entry.get("x", 0)), int(entry.get("y", 0)))
-		if plots.get_cell_source_id(cell) == -1 or planted.has(cell):
+		if not plot_order.has(cell) or planted.has(cell):
 			continue
 		_spawn_crop(cell, seed_data, entry)
 	

@@ -26,6 +26,27 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 18
 
+[node name="ResetButton" type="Button" parent="."]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -124.0
+offset_top = 48.0
+offset_right = -12.0
+offset_bottom = 84.0
+grow_horizontal = 0
+grow_vertical = 1
+focus_mode = 0
+text = "Clear Nectar + Plots"
+
+[node name="ResetConfirmation" type="ConfirmationDialog" parent="."]
+title = "Reset dev data?"
+dialog_text = "Clear collected nectar and remove all planted crops? Honey and seeds will stay."
+ok_button_text = "Clear"
+
 [node name="Joystick" type="VirtualJoystick" parent="." unique_id=1510471326]
 self_modulate = Color(1, 1, 1, 0.12941177)
 anchors_preset = 15

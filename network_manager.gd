@@ -14,6 +14,7 @@ var last_game_data: Dictionary = {}
 var auth_token: String = ""
 var telegram_init_data: String = ""
 var is_authenticated: bool = false
+var is_dev_session: bool = false
 
 var http_auth: HTTPRequest
 var http_save: HTTPRequest
@@ -78,6 +79,7 @@ func _detect_telegram_and_login() -> void:
 	authenticate()
 
 func authenticate() -> void:
+	is_dev_session = telegram_init_data == ""
 	var headers = ["Content-Type: application/json"]
 	var payload = {
 		"init_data": telegram_init_data,
@@ -101,8 +103,20 @@ func _on_auth_completed(_result: int, response_code: int, _headers: PackedString
 			# a second round-trip and sidestep any proxy header-stripping issues.
 			if json.has("save_data") and json["save_data"] is Dictionary:
 				print("[NetworkManager] Using save_data bundled in auth response.")
-				last_game_data = json["save_data"]
-				game_data_loaded.emit(json["save_data"])
+				var game_data: Dictionary = json["save_data"].duplicate(true)
+				var user_data: Variant = json.get("user", {})
+				var user_stats_data: Variant = json.get("user_stats", {})
+				var stats_data: Variant = json.get("stats", {})
+				if json.has("tier_level"):
+					game_data["tier_level"] = json["tier_level"]
+				elif user_data is Dictionary and user_data.has("tier_level"):
+					game_data["tier_level"] = user_data["tier_level"]
+				elif user_stats_data is Dictionary and user_stats_data.has("tier_level"):
+					game_data["tier_level"] = user_stats_data["tier_level"]
+				elif stats_data is Dictionary and stats_data.has("tier_level"):
+					game_data["tier_level"] = stats_data["tier_level"]
+				last_game_data = game_data
+				game_data_loaded.emit(game_data)
 			else:
 				# Fallback: explicit load request (passes token via query param)
 				load_game()
@@ -140,6 +154,7 @@ func save_game(save_dict: Dictionary) -> void:
 	var payload = {
 		"honey": save_dict.get("honey", 0),
 		"nectar": save_dict.get("nectar", 0),
+		"tier_level": save_dict.get("tier_level", 1),
 		"seeds": save_dict.get("seeds", {}),
 		"plots": save_dict.get("plots", []),
 		"token": auth_token # fallback so token is never lost

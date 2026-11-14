@@ -76,7 +76,7 @@ script = ExtResource("1_dwbse")
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(42, 110)
-tile_map_data = PackedByteArray("AAD///z/CAAAAAAAAAD///3/CAAAAAAAAAD+//3/CAAAAAAAAAD///7/CAAAAAAAAAD///v/CAAAAAAAAAAAAPz/CAAAAAAAAAD+//7/CAAAAAAAAAD+////CAAAAAAAAAAAAPv/CAAAAAAAAAAAAPr/CAAAAAAAAAAAAPn/CAAAAAAAAAABAPr/CAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD///z/CAAAAAAAAAD///3/CAAAAAAAAAD+//3/CAAAAAAAAAD///7/CAAAAAAAAAD///v/CAAAAAAAAAAAAPz/CAAAAAAAAAD+//7/CAAAAAAAAAD+////CAAAAAAAAAAAAPv/CAAAAAAAAAAAAPr/CAAAAAAAAAAAAPn/CAAAAAAAAAABAPr/CAAAAAAAAAD//wAACAAAAAAAAAD/////CAAAAAAAAAAAAP7/CAAAAAAAAAAAAP3/CAAAAAAAAAABAPz/CAAAAAAAAAABAPv/CAAAAAAAAAA=")
 tile_set = SubResource("TileSet_ioo17")
 collision_enabled = false
 
@@ -91,7 +91,7 @@ tile_set = SubResource("TileSet_hiqwa")
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(42, 110)
-tile_map_data = PackedByteArray("AAD+//7/AAAAAAAAAAD+//3/AAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD+//7/AAAAAAAAAAD+//3/AAAAAAAAAAD///z/AAAAAAAAAAD///v/AAAAAAAAAAD+////AAAAAAAAAAD///7/AAAAAAAAAAD///3/AAAAAAAAAAAAAPz/AAAAAAAAAAD//wAAAAAAAAAAAAD/////AAAAAAAAAAAAAP7/AAAAAAAAAAAAAP3/AAAAAAAAAAA=")
 tile_set = SubResource("TileSet_ic0uy")
 
 [node name="Crops" type="Node2D" parent="." unique_id=865307741]
@@ -105,10 +105,6 @@ scale = Vector2(0.13, 0.13)
 position = Vector2(-7.91626, -376.95728)
 scale = Vector2(1.1088511, 1.1088511)
 frame_progress = 0.5798014
-
-[node name="Camera2D" parent="Player" index="2" unique_id=1228046260]
-visible = false
-limit_enabled = false
 
 [node name="PromptLabel" type="Label" parent="." unique_id=217243809]
 offset_right = 64.0
