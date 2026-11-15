@@ -119,6 +119,7 @@ func save_to_server() -> void:
 	var save_dict := {
 		"honey": honey,
 		"nectar": nectar_total,
+		"tier_level": tier_level,
 		"seeds": seed_counts,
 		"plots": _build_plots_data()
 	}

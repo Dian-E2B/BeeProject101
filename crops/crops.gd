@@ -22,6 +22,7 @@ var is_collecting := false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var rotten_sprite: Sprite2D = $RottenSprite
+@onready var animated_sprite: AnimatedSprite2D = $CommonPlant
 
 func setup(seed_data: SeedData, p_planted_time: int = 0, p_last_collect_time: int = 0, p_rot_time: int = 0, p_watched_ad: bool = false, p_is_rotten: bool = false) -> void:
 	data = seed_data
@@ -162,12 +163,37 @@ func is_grown() -> bool:
 	return data != null and stage >= data.stage_textures.size() - 1
 
 func _update_sprite() -> void:
-	if is_rotten and rotten_sprite.texture != null:
-		sprite.visible = false
-		rotten_sprite.visible = true
+	if data == null:
 		return
-	sprite.visible = true
+	if is_rotten:
+		animated_sprite.stop()
+		animated_sprite.visible = false
+		if rotten_sprite.texture != null:
+			sprite.visible = false
+			rotten_sprite.visible = true
+		else:
+			sprite.visible = true
+			rotten_sprite.visible = false
+			if not data.stage_textures.is_empty():
+				sprite.texture = data.stage_textures[clampi(stage, 0, data.stage_textures.size() - 1)]
+		return
+
 	rotten_sprite.visible = false
+	var has_animation_frames := (
+		animated_sprite.sprite_frames != null
+		and animated_sprite.sprite_frames.has_animation("default")
+		and animated_sprite.sprite_frames.get_frame_count("default") > 0
+	)
+	var is_final_common_stage := stage == data.stage_textures.size() - 1
+	if data.rarity.to_lower() == "common" and is_final_common_stage and has_animation_frames:
+		sprite.visible = false
+		animated_sprite.visible = true
+		animated_sprite.play("default")
+		return
+
+	animated_sprite.stop()
+	animated_sprite.visible = false
+	sprite.visible = true
 	if data.stage_textures.is_empty():
 		return
 	sprite.texture = data.stage_textures[clampi(stage, 0, data.stage_textures.size() - 1)]
