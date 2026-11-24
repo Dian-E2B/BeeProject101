@@ -80,3 +80,4 @@ scale = Vector2(6, 6)
 shape = SubResource("CapsuleShape2D_muqmd")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1228046260]
+enabled = true
