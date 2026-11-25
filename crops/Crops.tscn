@@ -2,6 +2,35 @@
 
 [ext_resource type="Script" uid="uid://c15vnl3nsfm47" path="res://crops/crops.gd" id="1_4c0b5"]
 [ext_resource type="Texture2D" uid="uid://40q4moelhxrx" path="res://crops/crop1.png" id="1_ka8nq"]
+[ext_resource type="Texture2D" uid="uid://dluu4ec0xa5tr" path="res://crops/rotten_flower101.png" id="3_uoout"]
+[ext_resource type="Texture2D" uid="uid://el1iivfi33bu" path="res://crops/common/common_anim/crop4_common0000.png" id="4_ein2e"]
+[ext_resource type="Texture2D" uid="uid://phiyu41pu7nv" path="res://crops/common/common_anim/crop4_common0001.png" id="5_6jxt3"]
+[ext_resource type="Texture2D" uid="uid://brq7etv2yecme" path="res://crops/common/common_anim/crop4_common0002.png" id="6_v2f3x"]
+[ext_resource type="Texture2D" uid="uid://cvqa6rmsmgd43" path="res://crops/common/common_anim/crop4_common0003.png" id="7_kd83q"]
+[ext_resource type="Texture2D" uid="uid://bdu75e3qey8yv" path="res://crops/common/common_anim/crop4_common0004.png" id="8_5h8u1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_common_stage3"]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": ExtResource("4_ein2e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6jxt3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_v2f3x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_kd83q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_5h8u1")
+}],
+"loop": 2,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Crops" type="Node2D" unique_id=381811579]
 position = Vector2(0, -41)
@@ -10,3 +39,13 @@ script = ExtResource("1_4c0b5")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=584065996]
 position = Vector2(0, -41)
 texture = ExtResource("1_ka8nq")
+
+[node name="RottenSprite" type="Sprite2D" parent="." unique_id=249848864]
+position = Vector2(3, -34)
+scale = Vector2(0.92118603, 0.92118603)
+texture = ExtResource("3_uoout")
+
+[node name="CommonPlant" type="AnimatedSprite2D" parent="." unique_id=983023995]
+position = Vector2(0, -41)
+sprite_frames = SubResource("SpriteFrames_common_stage3")
+frame_progress = 0.5085846

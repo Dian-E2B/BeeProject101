@@ -25,6 +25,11 @@ var choosing_seed_for_plot := false
 var purchase_summary: Array[String] = []
 
 var planted := {}   # cell (Vector2i) -> Crop node
+var tier_level := 2
+var plot_cells: Array[Vector2i] = []
+var plot_tiles: Dictionary = {}
+var plot_order: Dictionary = {}
+var unlocked_plot_cells: Dictionary = {}
 
 
 
@@ -38,6 +43,8 @@ const SEED_RESOURCES := {
 }
 
 func _ready() -> void:
+	_cache_plot_cells()
+	_apply_plot_tier()
 	_update_stats()
 	_update_inventory()
 	print("WORLD READY")
@@ -48,6 +55,16 @@ func _ready() -> void:
 		# If data was already loaded before world._ready ran, apply it immediately!
 		if not NetworkManager.last_game_data.is_empty():
 			_on_server_data_loaded(NetworkManager.last_game_data)
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("""
+			if (window.Telegram && Telegram.WebApp) {
+				Telegram.WebApp.ready();
+				Telegram.WebApp.expand();
+				if (Telegram.WebApp.disableVerticalSwipes) {
+					Telegram.WebApp.disableVerticalSwipes();
+				}
+			}
+		""")
 
 	store.interacted.connect(_open_market)
 	store.player_left.connect(_close_market_if_open)
@@ -55,11 +72,23 @@ func _ready() -> void:
 	market.buy_requested.connect(_buy_seed)
 	market.closed.connect(func(): player.set_physics_process(true))
 	$MoveUi.inventory_pressed.connect(_toggle_inventory)
+	$MoveUi.dev_reset_requested.connect(_reset_dev_data)
 	inventory.seed_selected.connect(_on_inventory_seed_selected)
 	child_entered_tree.connect(_on_child_added)
 
 func _on_server_data_loaded(data: Dictionary) -> void:
 	print("[World] Syncing state from server data: ", data)
+	var loaded_tier: Variant = data.get("tier_level", null)
+	if loaded_tier == null:
+		for profile_key in ["user", "user_stats", "stats"]:
+			var profile: Variant = data.get(profile_key, {})
+			if profile is Dictionary and profile.has("tier_level"):
+				loaded_tier = profile["tier_level"]
+				break
+	if loaded_tier != null:
+		tier_level = int(loaded_tier)
+		_apply_plot_tier()
+
 	if data.has("honey"):
 		honey = int(data["honey"])
 	if data.has("nectar"):
@@ -90,13 +119,33 @@ func save_to_server() -> void:
 	var save_dict := {
 		"honey": honey,
 		"nectar": nectar_total,
+		"tier_level": tier_level,
 		"seeds": seed_counts,
 		"plots": _build_plots_data()
 	}
 
 	NetworkManager.save_game(save_dict)
 
+func _reset_dev_data() -> void:
+	if not NetworkManager.is_dev_session:
+		return
+	nectar_total = 0
+	for crop in planted.values():
+		if is_instance_valid(crop):
+			crop.queue_free()
+	planted.clear()
+	for child in get_children():
+		if child.has_signal("collected"):
+			child.queue_free()
+	_update_stats()
+	_update_inventory()
+	_refresh_market()
+	save_to_server()
+
 func _unhandled_input(event: InputEvent) -> void:
+	if inventory.visible:
+		return
+
 	# Check for direct tap/click on plot
 	var is_click := false
 	var click_pos := Vector2.ZERO
@@ -119,6 +168,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("inventory"):
 		_toggle_inventory()
+	if inventory.visible:
+		prompt.visible = false
+		return
 
 	var cell := _get_player_cell()
 	var on_plot := plots.get_cell_source_id(cell) != -1
@@ -134,10 +186,18 @@ func _process(_delta: float) -> void:
 				_open_inventory_for_plot(cell)
 		else:
 			_show_prompt(cell, "Need seeds")
+	elif planted[cell].is_rotten:
+		_show_prompt(cell, "Remove rotten crop [E]")
+		if Input.is_action_just_pressed("interact"):
+			_remove_rotten_crop(cell)
 	elif planted[cell].is_grown():
 		var crop = planted[cell]
 		crop.update_nectar_from_clock()
-		if crop.stored_nectar > 0:
+		if crop.is_rotten:
+			_show_prompt(cell, "Remove rotten crop [E]")
+			if Input.is_action_just_pressed("interact"):
+				_remove_rotten_crop(cell)
+		elif crop.stored_nectar > 0:
 			_show_prompt(cell, "Collect Nectar (%d/%d) [E]" % [crop.stored_nectar, crop.data.nectar_cap])
 			if Input.is_action_just_pressed("interact"):
 				collect_from_crop(cell)
@@ -154,6 +214,8 @@ func _toggle_inventory() -> void:
 		choosing_seed_for_plot = false
 
 func _open_inventory_for_plot(cell: Vector2i) -> void:
+	if not _is_plot_unlocked(cell):
+		return
 	pending_plant_cell = cell
 	choosing_seed_for_plot = true
 	inventory.visible = true
@@ -172,6 +234,8 @@ func _on_inventory_seed_selected(seed_data: SeedData) -> void:
 		_update_inventory()
 
 func plant(cell: Vector2i, seed_data: SeedData) -> void:
+	if not _is_plot_unlocked(cell):
+		return
 	seeds[seed_data] -= 1
 	_update_inventory()
 	_spawn_crop(cell, seed_data)
@@ -184,13 +248,16 @@ func collect_from_crop(cell: Vector2i) -> void:
 	crop.collect_nectar()
 
 func _on_crop_rotted(cell: Vector2i) -> void:
-	if not planted.has(cell):
+	if planted.has(cell):
+		save_to_server()
+
+func _remove_rotten_crop(cell: Vector2i) -> void:
+	if not planted.has(cell) or not planted[cell].is_rotten:
 		return
 	var crop = planted[cell]
 	planted.erase(cell)
-	var t = create_tween()
-	t.tween_property(crop, "modulate:a", 0.0, 0.4)
-	t.tween_callback(crop.queue_free)
+	crop.queue_free()
+	save_to_server()
 
 			
 func _get_player_cell() -> Vector2i:
@@ -276,6 +343,48 @@ func _update_stats() ->void:
 func _update_inventory() -> void:
 	inventory.get_inventory(seeds)
 
+func _cache_plot_cells() -> void:
+	plot_cells = plots.get_used_cells()
+	plot_cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+		if a.y != b.y:
+			return a.y < b.y
+		return a.x < b.x
+	)
+	plot_tiles.clear()
+	plot_order.clear()
+	for index in range(plot_cells.size()):
+		var cell := plot_cells[index]
+		plot_order[cell] = index
+		plot_tiles[cell] = {
+			"source_id": plots.get_cell_source_id(cell),
+			"atlas_coords": plots.get_cell_atlas_coords(cell),
+			"alternative_tile": plots.get_cell_alternative_tile(cell),
+		}
+
+func _apply_plot_tier() -> void:
+	tier_level = clampi(tier_level, 0, plot_cells.size())
+	unlocked_plot_cells.clear()
+	for index in range(plot_cells.size()):
+		var cell := plot_cells[index]
+		if index < tier_level:
+			var tile: Dictionary = plot_tiles[cell]
+			plots.set_cell(
+				cell,
+				int(tile["source_id"]),
+				tile["atlas_coords"],
+				int(tile["alternative_tile"])
+			)
+			unlocked_plot_cells[cell] = true
+		else:
+			plots.erase_cell(cell)
+
+	for cell in planted:
+		if is_instance_valid(planted[cell]):
+			planted[cell].visible = unlocked_plot_cells.has(cell)
+
+func _is_plot_unlocked(cell: Vector2i) -> bool:
+	return unlocked_plot_cells.has(cell)
+
 func _build_plots_data() -> Array:
 	var out := []
 	for cell in planted:
@@ -291,6 +400,7 @@ func _build_plots_data() -> Array:
 			"rot_time": crop.rot_time,
 			"watched_ad": crop.watched_ad,
 			"stored_nectar": crop.stored_nectar,
+			"is_rotten": crop.is_rotten,
 		})
 	return out
 
@@ -304,6 +414,7 @@ func _spawn_crop(cell: Vector2i, seed_data: SeedData, saved: Dictionary = {}) ->
 	var crop: Node2D = CROP_SCENE.instantiate()
 	crops.add_child(crop)
 	crop.global_position = plots.to_global(plots.map_to_local(cell))
+	crop.reset_physics_interpolation()
 	crop.rotted.connect(func(): _on_crop_rotted(cell))
 	# Set before setup(): setup adds nectar earned since last_collect_time on top
 	crop.stored_nectar = clampi(int(saved.get("stored_nectar", 0)), 0, seed_data.nectar_cap)
@@ -312,8 +423,10 @@ func _spawn_crop(cell: Vector2i, seed_data: SeedData, saved: Dictionary = {}) ->
 		int(saved.get("planted_time", 0)),
 		int(saved.get("last_collect_time", 0)),
 		int(saved.get("rot_time", 0)),
-		bool(saved.get("watched_ad", false))
+		bool(saved.get("watched_ad", false)),
+		bool(saved.get("is_rotten", false))
 	)
+	crop.visible = _is_plot_unlocked(cell)
 	planted[cell] = crop
 
 func _restore_plots(list: Array) -> void:
@@ -322,7 +435,6 @@ func _restore_plots(list: Array) -> void:
 			planted[cell].queue_free()
 	planted.clear()
 
-	var now := int(Time.get_unix_time_from_system())
 	for entry in list:
 		if not entry is Dictionary:
 			continue
@@ -330,10 +442,7 @@ func _restore_plots(list: Array) -> void:
 		if seed_data == null:
 			continue
 		var cell := Vector2i(int(entry.get("x", 0)), int(entry.get("y", 0)))
-		if plots.get_cell_source_id(cell) == -1 or planted.has(cell):
+		if not plot_order.has(cell) or planted.has(cell):
 			continue
-		var rot_t := int(entry.get("rot_time", 0))
-		if rot_t > 0 and now >= rot_t:
-			continue   # rotted while the player was away, skip it
 		_spawn_crop(cell, seed_data, entry)
 	
