@@ -1,11 +1,10 @@
 extends Node2D
 
 const CROP_SCENE := preload("res://crops/Crops.tscn")
-
-@onready var plots: TileMapLayer = $Plots
-@onready var crops: Node2D = $Crops
+@onready var plots: TileMapLayer = %Plots
 @onready var player: CharacterBody2D = $Player
 @onready var prompt: Label = $PromptLabel
+@onready var crops: Node2D = %Crops
 
 @onready var store = $Store
 @onready var market = $Market
@@ -346,9 +345,11 @@ func _update_inventory() -> void:
 func _cache_plot_cells() -> void:
 	plot_cells = plots.get_used_cells()
 	plot_cells.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
-		if a.y != b.y:
-			return a.y < b.y
-		return a.x < b.x
+		var screen_a := plots.to_global(plots.map_to_local(a))
+		var screen_b := plots.to_global(plots.map_to_local(b))
+		if not is_equal_approx(screen_a.x, screen_b.x):
+			return screen_a.x < screen_b.x
+		return screen_a.y < screen_b.y
 	)
 	plot_tiles.clear()
 	plot_order.clear()
@@ -362,7 +363,8 @@ func _cache_plot_cells() -> void:
 		}
 
 func _apply_plot_tier() -> void:
-	tier_level = clampi(tier_level, 0, plot_cells.size())
+	var minimum_unlocked := mini(2, plot_cells.size())
+	tier_level = clampi(tier_level, minimum_unlocked, plot_cells.size())
 	unlocked_plot_cells.clear()
 	for index in range(plot_cells.size()):
 		var cell := plot_cells[index]
