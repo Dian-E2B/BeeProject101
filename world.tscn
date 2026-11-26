@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://dvidew40e78hq" path="res://tile/plot1.png" id="7_pkg7o"]
 [ext_resource type="PackedScene" uid="uid://btsly4a5t82v5" path="res://store/Store.tscn" id="8_gbfbk"]
 [ext_resource type="Script" uid="uid://3lmyw1yxbnms" path="res://store/market/market.gd" id="9_26xuy"]
-[ext_resource type="Texture2D" uid="uid://6humk2c2i8bh" path="res://Uis/world_ui/branch_cano.png" id="9_il2jm"]
 [ext_resource type="Script" uid="uid://dnbaohyxgy56c" path="res://seeds/seed_data.gd" id="10_bc84e"]
 [ext_resource type="PackedScene" uid="uid://cgkfwvms8t2ld" path="res://playerstats/CharStats.tscn" id="10_wse8f"]
 [ext_resource type="Script" uid="uid://bwu78kb5050cm" path="res://options/inventory.gd" id="11_k3n1d"]
@@ -85,11 +84,6 @@ texture = ExtResource("3_wukud")
 
 [node name="Branch" type="Node" parent="." unique_id=428512993]
 
-[node name="Sprite2D" type="Sprite2D" parent="Branch" unique_id=135268192]
-position = Vector2(-21.000002, -200.00002)
-scale = Vector2(1.0633972, 1.1004251)
-texture = ExtResource("9_il2jm")
-
 [node name="Sprite2D2" type="Sprite2D" parent="Branch" unique_id=1847693206]
 position = Vector2(210.0001, -661.00006)
 scale = Vector2(1.0633972, 1.1004251)
@@ -136,7 +130,7 @@ unique_name_in_owner = true
 
 [node name="Player" parent="." unique_id=1510979019 instance=ExtResource("2_fj7yv")]
 z_index = 1
-position = Vector2(274.00003, -158)
+position = Vector2(-501.99994, -286)
 scale = Vector2(0.13, 0.13)
 
 [node name="AnimatedSprite2D" parent="Player" index="0" unique_id=371826594]
